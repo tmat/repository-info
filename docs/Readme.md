@@ -75,21 +75,21 @@ Has no effect if ```EmbedAllSources``` is true.
 
 ## Advanced Settings
 
-## IncludeSourceRevisionInInformationalVersion
+### IncludeSourceRevisionInInformationalVersion
 
 When true and a source control package is present the Source Revision id is included in the ```AssemblyInformationalVersionAttribute```. 
 True by default, set to false to suppress publishing Source Revision id to the attribute.
 
-## SourceRevisionId
+### SourceRevisionId
 
 Set by target ```SetSourceRevisionId``` and consumed by NuGet ```Pack``` target and ```GenerateAssemblyInfo``` target. 
 May be used by custom targets that need this information.
 
-## EnableSourceLink
+### EnableSourceLink
 
 This property is implicitly set to true by a SourceLink package, unless it's explicitly set by the project to false.
 Including a SourceLink package thus enables Source Link generation unless disabled by the project.
 
-## SourceRoot
+### SourceRoot
 
 TODO
