@@ -75,7 +75,7 @@ Has no effect if ```EmbedAllSources``` is true.
 
 ## Example
 
-The following project settings result in a fully deterministic build output, repository url and commit hash automatically detected and included in NuSpec, commit hash included in ```AssemblyInformationalVersionAttribute```, all source files available on GitHub linked via Source Link (including those in submodules) and source files not available on GitHub embedded in the PDB.
+The following project settings result in a fully deterministic build output when built on a CI server that supports Standard CI specification, repository url and commit hash automatically detected and included in NuSpec, commit hash included in ```AssemblyInformationalVersionAttribute```, all source files available on GitHub linked via Source Link (including those in submodules) and source files not available on GitHub embedded in the PDB.
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -83,7 +83,6 @@ The following project settings result in a fully deterministic build output, rep
     <TargetFramework>netcoreapp1.0</TargetFramework>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <Deterministic>true</Deterministic>
-    <DeterministicSourcePaths>true</DeterministicSourcePaths>    
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
   <ItemGroup>
