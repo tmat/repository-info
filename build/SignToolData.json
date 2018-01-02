@@ -1,0 +1,13 @@
+{
+  "sign": [
+    {
+      "certificate": "MicrosoftSHA2",
+      "strongName": "MsSharedLib72",
+      "values": [
+        "bin/Microsoft.Build.Tasks.Git/net46/Microsoft.Build.Tasks.Git.dll",
+        "bin/Microsoft.Build.Tasks.Git/netcoreapp1.0/Microsoft.Build.Tasks.Git.dll",
+        "bin/Microsoft.Build.Tasks.TFVC/net46/Microsoft.Build.Tasks.TFVC.dll"
+      ]
+    }
+  ]
+}

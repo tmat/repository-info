@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+
+    <!-- This repo version -->
+    <VersionBase>1.0.0</VersionBase>
+    <PreReleaseVersionLabel>beta</PreReleaseVersionLabel>
+
+    <!-- Toolset -->
+    <RoslynToolsRepoToolsetVersion>1.0.0-beta-62412-04</RoslynToolsRepoToolsetVersion>
+    <DotNetCliVersion>2.0.2</DotNetCliVersion>
+    
+    <!-- Libs -->
+    <LibGit2SharpPortableVersion>0.24.10</LibGit2SharpPortableVersion>
+    <MicrosoftBuildVersion>14.3.0</MicrosoftBuildVersion> 
+    <MicrosoftBuildTasksCore>14.3.0</MicrosoftBuildTasksCore>
+    <MicrosoftTeamFoundationServerExtendedClientVersion>15.112.1</MicrosoftTeamFoundationServerExtendedClientVersion>
+  </PropertyGroup>
+</Project>
