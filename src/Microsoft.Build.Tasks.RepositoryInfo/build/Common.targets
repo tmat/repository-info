@@ -200,7 +200,7 @@
   <Target Name="_SetEmbeddedFilesFromExternalFiles"
           DependsOnTargets="InitializeSourceRoot"
           BeforeTargets="CoreCompile"
-          Condition="'$(EmbedUntrackedSources)' == 'true' and '$(DebugType)' != 'none'">
+          Condition="'$(EmbedUntrackedSources)' == 'true' and '$(EmbedAllSources)' != 'true' and '$(DebugType)' != 'none'">
     
     <!-- Add files that do not belong to the repository or any source root. -->
     <GetExternalFiles Directories="@(SourceRoot)" Files="@(Compile)">
