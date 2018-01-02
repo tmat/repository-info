@@ -73,6 +73,25 @@ Set ```EmbedUntrackedSources``` to true to instruct the build system to embed pr
 
 Has no effect if ```EmbedAllSources``` is true.
 
+## Example
+
+The following project settings result in a fully deterministic build output, repository url and commit hash automatically detected and included in NuSpec, commit hash included in ```AssemblyInformationalVersionAttribute``` and Source Link included in the PDB:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <Deterministic>true</Deterministic>
+    <DeterministicSourcePaths>true</DeterministicSourcePaths>    
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="SourceLink.GitHub" Version="3.0.0" />
+  </ItemGroup>
+</Project>
+```
+
 ## Advanced Settings
 
 ### IncludeSourceRevisionInInformationalVersion
