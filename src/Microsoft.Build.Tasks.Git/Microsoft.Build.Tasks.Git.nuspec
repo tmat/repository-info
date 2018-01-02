@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Build.Tasks.Git</id>
+    <summary>MSBuild tasks providing git repository information.</summary>
+    <description>MSBuild tasks providing git repository information.</description>
+    <version>1.0.0-beta</version>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>$licenseUrl$</licenseUrl>
+    <projectUrl>$repoUrl$</projectUrl>
+    <copyright>$copyright$</copyright>
+    <repository url="$repoUrl$" />
+    <developmentDependency>true</developmentDependency>
+    <tags>MSBuild Tasks git source control</tags>
+    <serviceable>true</serviceable>
+    <language>en-US</language>
+  </metadata>
+  <files>
+    <file src="netcoreapp1.0\*.*" target="tools\netcoreapp1.0" />
+    <file src="netcoreapp1.0\lib\**\*.dll" target="tools\netcoreapp1.0\lib" />
+    <file src="netcoreapp1.0\lib\**\*.so" target="tools\netcoreapp1.0\lib" />
+    <file src="netcoreapp1.0\lib\**\*.dylib" target="tools\netcoreapp1.0\lib" />
+
+    <file src="net46\Microsoft.Build.Tasks.Git.*" target="tools\net46" />
+    <file src="net46\LibGit2Sharp.*" target="tools\net46" />
+    <file src="net46\lib\**\*.dll" target="tools\net46\lib" />
+    <file src="net46\lib\**\*.so" target="tools\net46\lib" />
+    <file src="net46\lib\**\*.dylib" target="tools\net46\lib" />
+
+    <file src="$projectDir$\build\*.*" target="build" />
+  </files>
+</package>

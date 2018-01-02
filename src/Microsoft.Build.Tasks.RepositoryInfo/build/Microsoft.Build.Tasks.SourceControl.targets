@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+  <!-- A single SourceControlBuildTasks is expected to be found, error is reported otherwise. -->
+  <UsingTask TaskName="@(SourceControlBuildTasks->'%(Namespace)').LocateRepository" AssemblyFile="@(SourceControlBuildTasks->'%(AssemblyFile)')"/>
+  <UsingTask TaskName="@(SourceControlBuildTasks->'%(Namespace)').GetSourceRoots" AssemblyFile="@(SourceControlBuildTasks->'%(AssemblyFile)')"/>
+  <UsingTask TaskName="@(SourceControlBuildTasks->'%(Namespace)').GetRepositoryUrl" AssemblyFile="@(SourceControlBuildTasks->'%(AssemblyFile)')"/>
+  <UsingTask TaskName="@(SourceControlBuildTasks->'%(Namespace)').GetSourceRevisionId" AssemblyFile="@(SourceControlBuildTasks->'%(AssemblyFile)')" />
+  <UsingTask TaskName="@(SourceControlBuildTasks->'%(Namespace)').GetUntrackedFiles" AssemblyFile="@(SourceControlBuildTasks->'%(AssemblyFile)')"/>
+
+  <!-- Overrides -->
+  <Target Name="SetSourceRevisionId" DependsOnTargets="_InitializeSourceControlProperties" />
+  
+  <PropertyGroup>
+    <InitializeSourceRootDependsOn>$(InitializeSourceRootDependsOn);_InitializeSourceRootFromSourceControl</InitializeSourceRootDependsOn>
+    <InitializePrivateRepositoryUrlDependsOn>$(InitializePrivateRepositoryUrlDependsOn);_InitializeSourceControlProperties</InitializePrivateRepositoryUrlDependsOn>
+  </PropertyGroup>
+  
+  <Target Name="_InitializeSourceControlProperties">
+    <Error Text="A single source control package required, found multiple: @(SourceControlBuildTasks, ', ')" 
+           Condition="@(SourceControlBuildTasks->Count()) != 1"/>
+
+    <!-- 
+      Determines RepositoryLocalSourceControlId and RepositoryRoot of the repository the project belongs to.
+      
+      In source control systems that support nested repositories, such as Git via submodules, the RepositoryRoot would be of 
+      the inner-most module unless UseOutermostRepository is true, in which case the outermost repository is found.
+      The inner-most repository root is used by default so that the RepositoryRoot for the project is the same regardless 
+      of whether the project is built from within the nested repository or from the containing repository.
+
+      In source control systems that support multiple roots, such as TFVC via workspace with multiple mappings,
+      the value will be the inner-most directory that is an ancestor of all roots, if such directory exists.
+      If it doesn't exist an error is reported and the project must set RepositoryRoot explicitly.
+
+      The RepositoryLocalSourceControlId is a string that represents the repository in the local source control system.
+
+      The project is allowed to override RepositoryRoot.
+    -->
+    <LocateRepository Directory="$(MSBuildProjectDirectory)" OutermostRepositoryRoot="$(UseOutermostRepository)" >
+      <Output TaskParameter="Root" PropertyName="RepositoryRoot" Condition="'$(RepositoryRoot)' == ''" />
+      <Output TaskParameter="Id" PropertyName="RepositoryLocalSourceControlId" />
+    </LocateRepository>
+    
+    <Error Text="Unable to determine repository root." Condition="'$(RepositoryRoot)' == ''" />
+
+    <!-- 
+      Only initialize the URL if it hasn't been set yet. On CI we get the value from STANDARD_CI_REPOSITORY_URL.
+    -->
+    <GetRepositoryUrl LocalRepositoryId="$(RepositoryLocalSourceControlId)" Condition="'$(PrivateRepositoryUrl)' == ''">
+      <Output TaskParameter="Url" PropertyName="PrivateRepositoryUrl" />
+    </GetRepositoryUrl>
+
+    <!-- 
+      Override any previously set value of SourceRevisionId since the value provided by the SCM is authoritative. 
+    -->
+    <GetSourceRevisionId LocalRepositoryId="$(RepositoryLocalSourceControlId)">
+      <Output TaskParameter="RevisionId" PropertyName="SourceRevisionId" />
+    </GetSourceRevisionId>
+  </Target>
+  
+  <Target Name="_InitializeSourceRootFromSourceControl"
+          DependsOnTargets="_InitializeSourceControlProperties">
+          
+    <GetSourceRoots LocalRepositoryId="$(RepositoryLocalSourceControlId)">
+      <Output TaskParameter="Roots" ItemName="SourceRoot" />
+    </GetSourceRoots>
+  </Target>
+
+  <!--
+    Embed files to the PDB that belong to the repository, but are explicitly ignored (excluded) from source control.
+  -->
+  <Target Name="_SetEmbeddedFilesFromUntrackedFiles"
+          DependsOnTargets="_InitializeSourceControlProperties"
+          BeforeTargets="CoreCompile"
+          Condition="'$(EmbedUntrackedSources)' == 'true' and '$(DebugType)' != 'none'">
+    
+    <GetUntrackedFiles LocalRepositoryId="$(RepositoryLocalSourceControlId)" Files="@(Compile)">
+      <Output TaskParameter="UntrackedFiles" ItemName="EmbeddedFiles" />
+    </GetUntrackedFiles>
+  </Target>
+  
+</Project>

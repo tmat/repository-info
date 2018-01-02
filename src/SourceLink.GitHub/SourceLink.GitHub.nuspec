@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>SourceLink.GitHub</id>
+    <summary>Generates source link for GitHub repositories.</summary>
+    <description>Generates source link for GitHub repositories.</description>
+    <version>1.0.0-beta</version>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>$licenseUrl$</licenseUrl>
+    <projectUrl>$repoUrl$</projectUrl>
+    <copyright>$copyright$</copyright>
+    <repository url="$repoUrl$" />
+    <developmentDependency>true</developmentDependency>
+    <tags>MSBuild Tasks GitHub source link</tags>
+    <serviceable>true</serviceable>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="Microsoft.Build.Tasks.Git" version="1.0.0-*" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="netcoreapp1.0\*.*" target="tools\netcoreapp1.0" />
+    <file src="net46\SourceLink.*" target="tools\net46" />
+
+    <file src="$projectDir$\build\*.*" target="build" />
+  </files>
+</package>

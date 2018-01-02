@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <EnableSourceControlBuildTasks>true</EnableSourceControlBuildTasks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SourceControlBuildTasks Include="TFVC">
+      <Namespace>Microsoft.Build.Tasks.TFVC</Namespace>
+      <AssemblyFile>$(MSBuildThisFileDirectory)..\tools\net46\Microsoft.Build.Tasks.TFVC.dll</AssemblyFile>
+    </SourceControlBuildTasks>
+  </ItemGroup>
+</Project>

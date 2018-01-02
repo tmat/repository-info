@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Build.Tasks.TFVC</id>
+    <summary>MSBuild tasks providing TFVC repository information.</summary>
+    <description>MSBuild tasks providing TFVC repository information.</description>
+    <version>1.0.0-beta</version>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>$licenseUrl$</licenseUrl>
+    <projectUrl>$repoUrl$</projectUrl>
+    <copyright>$copyright$</copyright>
+    <repository url="$repoUrl$" />
+    <developmentDependency>true</developmentDependency>
+    <tags>MSBuild Tasks TFVC source control</tags>
+    <serviceable>true</serviceable>
+    <language>en-US</language>
+  </metadata>
+  <files>
+    <file src="net46\Microsoft.Build.Tasks.TFVC.*" target="tools\net46" />
+    <file src="net46\Microsoft.TeamFoundation.Client.dll" target="tools\net46" />
+    <file src="net46\Microsoft.TeamFoundation.Common.dll" target="tools\net46" />
+    <file src="net46\Microsoft.TeamFoundation.Core.WebApi.dll" target="tools\net46" />
+    <file src="net46\Microsoft.TeamFoundation.VersionControl.Client.dll" target="tools\net46" />
+    <file src="net46\Microsoft.TeamFoundation.VersionControl.Common.dll" target="tools\net46" />
+    <file src="net46\Microsoft.VisualStudio.Services.Client.Interactive.dll" target="tools\net46" />
+    <file src="net46\Microsoft.VisualStudio.Services.Common.dll" target="tools\net46" />
+    <file src="net46\Microsoft.VisualStudio.Services.WebApi.dll" target="tools\net46" />
+
+    <file src="$projectDir$\build\*.*" target="build" />
+  </files>
+</package>

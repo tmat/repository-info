@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <Deterministic>true</Deterministic>
+    <DeterministicSourcePaths>false</DeterministicSourcePaths>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Emulate submodule in VSO -->
+    <SourceRoot Include="$(MSBuildProjectDirectory)\X\"
+                SourceControl="Git"
+                RevisionId="00000000e9b2bf1116b853d7d42b750874ed5a0e"
+                RepositoryUrl="https://devdiv.visualstudio.com/DefaultCollection/DevDiv/_git/VS/" 
+                NestedRoot="tests/SourceLink1/X"
+                ContainingRoot="$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..\'))"/>
+
+    <!-- Emulate source package -->
+    <SourceRoot Include="$(NuGetPackageRoot)A\B\"
+                SourceLinkUrl="https://A/B/*" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- TODO: move to Microsoft.Common.targets -->
+  
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_RepositoryInfoAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net46\Microsoft.Build.Tasks.RepositoryInfo.dll</_RepositoryInfoAssemblyFile>
+    <_RepositoryInfoAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp1.0\Microsoft.Build.Tasks.RepositoryInfo.dll</_RepositoryInfoAssemblyFile>
+  </PropertyGroup>
+  
+  <UsingTask TaskName="Microsoft.Build.Tasks.MapSourceRoots" AssemblyFile="$(_RepositoryInfoAssemblyFile)"/>
+  <UsingTask TaskName="Microsoft.Build.Tasks.GetExternalFiles" AssemblyFile="$(_RepositoryInfoAssemblyFile)"/>
+  <UsingTask TaskName="Microsoft.Build.Tasks.GenerateSourceLinkFile" AssemblyFile="$(_RepositoryInfoAssemblyFile)"/>
+
+  <!--
+    ==========
+    SourceRoot
+    ==========
+    
+    All source files of the project are expected to be located under one of the directories specified by SourceRoot item group.
+    Include the final backslash in the path.
+  -->
+
+  <!-- Virtual with base call before overridden implementation. -->
+  <Target Name="InitializeSourceRoot"
+          DependsOnTargets="$(InitializeSourceRootDependsOn)">
+    <ItemGroup>
+      <_InvalidSourceRoot Include="@(SourceRoot)" Condition="!HasTrailingSlash('%(SourceRoot.Identity)')" />
+    </ItemGroup>
+
+    <Error Text="SourceRoot paths are required to end with a slash or backslash: @(_InvalidSourceRoot, ', ')"
+           Condition="'@(_InvalidSourceRoot)' != ''" />
+
+    <!--
+      Assign top-level source roots a deterministic path (MappedPath metadata).
+    -->
+    
+    <ItemGroup Condition="'@(_MappedSourceRoot)' != ''">
+      <_MappedSourceRoot Remove="@(_MappedSourceRoot)" />
+    </ItemGroup>
+
+    <MapSourceRoots SourceRoots="@(SourceRoot)" Condition="'$(DeterministicSourcePaths)' == 'true'">
+      <Output TaskParameter="MappedSourceRoots" ItemName="_MappedSourceRoot" />
+    </MapSourceRoots>
+
+    <ItemGroup Condition="'$(DeterministicSourcePaths)' == 'true'">
+      <SourceRoot Remove="@(SourceRoot)" />
+      <SourceRoot Include="@(_MappedSourceRoot)" />
+    </ItemGroup>
+  </Target>
+  
+  <!-- 
+    ================
+    SourceRevisionId
+    ================
+    
+    SourceRevisionId is embedded in AssemblyInformationalVersion, nuspec files for NuGet packages produced by the project, etc., 
+    to associate assemblies, packages and other build outputs with a particular revision of the repository from which they were built.
+   
+    The format of the id is specific to the source control system the project is built from. A commit hash for GIT repositories, 
+    changeset number for TFVC repositories, etc. 
+   
+    Here, the id is set to the value supplied by the CI server building the project, provided that the server follows 
+    Standard CI specification: https://github.com/dotnet/designs/blob/86f4ed0e39fc1b1ab5c4128990b17c4aead4420f/proposed/standard-ci-env-variables.md.
+      
+    TODO: replace with link to an official spec 
+      
+    If the project references a package that provides source control information (such as Microsoft.Build.Tasks.Git, Microsoft.Build.Tasks.TFVC, etc.)
+    the revision id becomes available in all build environments. 
+  -->
+
+  <!-- Virtual: may be replaced by another target -->
+  <Target Name="SetSourceRevisionId">
+    <PropertyGroup>
+      <SourceRevisionId>$(STANDARD_CI_SOURCE_REVISION_ID)</SourceRevisionId>
+    </PropertyGroup>
+  </Target>
+
+  <PropertyGroup>
+    <!-- TODO: move to NuGet.Build.Tasks.Pack.targets -->
+    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);SetSourceRevisionId</GenerateNuspecDependsOn>
+  </PropertyGroup>
+
+  <!-- 
+    TODO: move to Microsoft.NET.GenerateAssemblyInfo.targets 
+    Update CoreGenerateAssemblyInfo instead of defining an extra target
+  -->
+
+  <PropertyGroup>
+    <IncludeSourceRevisionInInformationalVersion Condition="'$(IncludeSourceRevisionInInformationalVersion)' == ''">true</IncludeSourceRevisionInInformationalVersion>
+  </PropertyGroup>
+
+  <Target Name="_IncludeSourceRevisionInInformationalVersion"
+          BeforeTargets="GetAssemblyAttributes"
+          DependsOnTargets="SetSourceRevisionId"
+          Condition="'$(IncludeSourceRevisionInInformationalVersion)' == 'true'">
+
+    <PropertyGroup Condition="'$(SourceRevisionId)' != ''">
+      <InformationalVersion>$(InformationalVersion) (revision $(SourceRevisionId))</InformationalVersion>
+    </PropertyGroup>
+  </Target>
+
+  <!-- TODO: Update Pack task to include SourceRevisionId in generated nuspec. -->
+
+  <!--
+    ====================
+    PrivateRepositoryUrl
+    ====================
+  
+    PrivateRepositoryUrl is the URL of the repository supplied by the CI server or retrieved from source control manager.
+    This value is not directly embedded in build outputs to avoid inadvertently publishing links to private repositories.
+    Instead, PublishRepositoryUrl needs to be set by the project in order to publish the URL into RepositoryUrl property,
+    which is used e.g. in the nuspec file generated for NuGet package produced by the project.
+  -->
+
+  <PropertyGroup>
+    <!-- TODO: move to NuGet.Build.Tasks.Pack.targets -->
+    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);InitializeRepositoryUrl</GenerateNuspecDependsOn>
+  </PropertyGroup>
+ 
+  <Target Name="InitializeRepositoryUrl"
+          DependsOnTargets="InitializePrivateRepositoryUrl"
+          Condition="'$(PublishRepositoryUrl)' == 'true'">
+    
+    <PropertyGroup>
+      <RepositoryUrl Condition="'$(RepositoryUrl)' == ''">$(PrivateRepositoryUrl)</RepositoryUrl>
+    </PropertyGroup>
+  </Target>
+
+  <!-- Virtual with base call before overridden implementation. -->
+  <Target Name="InitializePrivateRepositoryUrl"
+          DependsOnTargets="_InitializePrivateRepositoryUrlFromStandardCI;$(InitializePrivateRepositoryUrlDependsOn)">
+  </Target>
+
+  <Target Name="_InitializePrivateRepositoryUrlFromStandardCI">
+    <PropertyGroup>
+      <PrivateRepositoryUrl Condition="'$(PrivateRepositoryUrl)' == ''">$(STANDARD_CI_REPOSITORY_URL)</PrivateRepositoryUrl>
+    </PropertyGroup>
+  </Target>
+
+  <!-- 
+    =======
+    PathMap
+    =======
+    
+    If DeterministicSourcePaths is true adds mapping for all source roots to PathMap.
+    
+    This target requires SourceRoot to be initialized in order to calculate the PathMap.
+    If SourceRoot is empty an error is reported if DeterministicSourcePaths has been explicitly set to true by the project.
+    If DeterministicSourcePaths has been set to true in Common.props the target is skipped, to avoid breaking existing projects.
+  -->
+
+  <PropertyGroup>
+    <!-- 
+      Unless specified otherwise enable deterministic source root (PathMap) when building deterministically on CI server, but not for local builds.
+      In order for the debugger to find source files when debugging a locally built binary the PDB must contain original, unmapped local paths.
+    -->
+    <_DeterministicSourcePathsOriginal>$(DeterministicSourcePaths)</_DeterministicSourcePathsOriginal>
+    <DeterministicSourcePaths Condition="'$(DeterministicSourcePaths)' == '' and '$(Deterministic)' == 'true' and '$(ContinuousIntegrationBuild)' != ''">true</DeterministicSourcePaths>
+  </PropertyGroup>
+
+  <Target Name="_SetPathMapFromSourceRoots"
+          DependsOnTargets="InitializeSourceRoot"
+          BeforeTargets="CoreCompile"
+          Condition="'$(DeterministicSourcePaths)' == 'true'">
+   
+    <ItemGroup>
+      <_TopLevelSourceRoot Include="@(SourceRoot)" Condition="'%(SourceRoot.NestedRoot)' == ''"/>
+    </ItemGroup>
+
+    <Error Text="SourceRoot must contain top-level source roots when DeterministicSourcePaths is true"
+           Condition="'@(_TopLevelSourceRoot)' == '' and '$(_DeterministicSourcePathsOriginal)' == 'true'" />
+    
+    <PropertyGroup Condition="'@(_TopLevelSourceRoot)' != ''">
+      <!-- TODO: Report error/warning if /pathmap doesn't cover all emitted source paths: https://github.com/dotnet/roslyn/issues/23969 -->
+      
+      <!-- TODO: PathMap should accept and ignore empty mapping: https://github.com/dotnet/roslyn/issues/23523-->
+      <PathMap Condition="'$(PathMap)' != ''">$(PathMap),</PathMap>
+      
+      <!--
+        TODO: quote the paths to avoid misinterpreting ',' and '=' in them as separators, 
+        but quoting doesn't currently work (see https://github.com/dotnet/roslyn/issues/22835).
+      -->
+      <PathMap>$(PathMap)@(_TopLevelSourceRoot->'%(Identity)=%(MappedPath)', ',')</PathMap>
+    </PropertyGroup>
+  </Target>
+
+  <!-- 
+    =====================
+    EmbedUntrackedSources
+    =====================
+    
+    If EmbedUntrackedSources is true sources that do not belong to any of the SourceRoot directories are embedded to the PDB.
+    If source control package is referenced sources that belong to the repository but are not tracked by the source control system are also embedded.
+  -->
+
+  <Target Name="_SetEmbeddedFilesFromExternalFiles"
+          DependsOnTargets="InitializeSourceRoot"
+          BeforeTargets="CoreCompile"
+          Condition="'$(EmbedUntrackedSources)' == 'true' and '$(DebugType)' != 'none'">
+    
+    <!-- Add files that do not belong to the repository or any source root. -->
+    <GetExternalFiles Directories="@(SourceRoot)" Files="@(Compile)">
+      <Output TaskParameter="ExternalFiles" ItemName="EmbeddedFiles" />
+    </GetExternalFiles>
+  </Target>
+
+  <!-- 
+    Import source control targets if any source control package has been referenced.
+    EnableSourceControlBuildTasks property is set by a .props file of the referenced source control package.
+  -->
+  <Import Project="Microsoft.Build.Tasks.SourceControl.targets" Condition="'$(EnableSourceControlBuildTasks)' == 'true'"/>
+  <Import Project="Microsoft.Build.Tasks.SourceLink.targets" Condition="'$(EnableSourceLink)' == 'true' and '$(DebugType)' != 'none'"/>
+</Project>

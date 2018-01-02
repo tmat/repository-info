@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <_SourceLinkVsoTfvcAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net46\SourceLink.VSO.TFVC.dll</_SourceLinkVsoTfvcAssemblyFile>
+    <_SourceLinkVsoTfvcAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp1.0\SourceLink.VSO.TFVC.dll</_SourceLinkVsoTfvcAssemblyFile>
+  </PropertyGroup>
+    
+  <UsingTask TaskName="SourceLink.VSO.TFVC.GetVsoTfvcSourceLinkUrl" AssemblyFile="$(_SourceLinkVsoTfvcAssemblyFile)"/>
+
+  <PropertyGroup>
+    <InitializeSourceLinkUrlDependsOn>$(InitializeSourceLinkUrlDependsOn);_InitializeVsoTfvcSourceLinkUrl</InitializeSourceLinkUrlDependsOn>
+  </PropertyGroup>
+
+  <Target Name="_InitializeVsoTfvcSourceLinkUrl" Inputs="@(SourceRoot)" Outputs="|%(Identity)|">
+    <GetVsoTfvcSourceLinkUrl SourceRoot="@(SourceRoot)">
+      <Output TaskParameter="SourceLinkUrl" PropertyName="_SourceLinkUrlToUpdate"/>
+    </GetVsoTfvcSourceLinkUrl>
+    
+    <ItemGroup>
+      <SourceRoot Update="%(Identity)" SourceLinkUrl="$(_SourceLinkUrlToUpdate)" Condition="'$(_SourceLinkUrlToUpdate)' != 'N/A'"/>
+    </ItemGroup>
+  </Target>
+
+</Project>

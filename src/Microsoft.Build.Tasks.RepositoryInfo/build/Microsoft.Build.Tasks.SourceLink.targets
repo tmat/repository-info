@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SourceLink>$(IntermediateOutputPath)$(MSBuildProjectName).sourcelink.json</SourceLink>
+  </PropertyGroup>
+
+  <!-- 
+    Fills in SourceLinkUrl metadata on SourceRoot items that don't have it yet.
+  -->
+  <Target Name="InitializeSourceLinkUrl"
+          DependsOnTargets="InitializeSourceRoot;$(InitializeSourceLinkUrlDependsOn)">
+  </Target>
+
+  <!-- 
+    Generates source link file.
+  -->
+  <Target Name="_GenerateSourceLinkFile"
+          DependsOnTargets="InitializeSourceLinkUrl"
+          BeforeTargets="CoreCompile"
+          Outputs="$(SourceLink)">
+
+    <GenerateSourceLinkFile SourceRoots="@(SourceRoot)" OutputFile="$(SourceLink)" />
+
+    <ItemGroup>
+      <FileWrites Include="$(SourceLink)" />
+    </ItemGroup>
+  </Target>
+  
+</Project>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <_SourceLinkVsoGitAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net46\SourceLink.VSO.Git.dll</_SourceLinkVsoGitAssemblyFile>
+    <_SourceLinkVsoGitAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp1.0\SourceLink.VSO.Git.dll</_SourceLinkVsoGitAssemblyFile>
+  </PropertyGroup>
+    
+  <UsingTask TaskName="SourceLink.VSO.Git.GetVsoGitSourceLinkUrl" AssemblyFile="$(_SourceLinkVsoGitAssemblyFile)"/>
+
+  <PropertyGroup>
+    <InitializeSourceLinkUrlDependsOn>$(InitializeSourceLinkUrlDependsOn);_InitializeVsoGitSourceLinkUrl</InitializeSourceLinkUrlDependsOn>  
+</PropertyGroup>
+
+  <Target Name="_InitializeVsoGitSourceLinkUrl" Inputs="@(SourceRoot)" Outputs="|%(Identity)|">
+    <GetVsoGitSourceLinkUrl SourceRoot="@(SourceRoot)">
+      <Output TaskParameter="SourceLinkUrl" PropertyName="_SourceLinkUrlToUpdate"/>
+    </GetVsoGitSourceLinkUrl>
+    
+    <ItemGroup>
+      <SourceRoot Update="%(Identity)" SourceLinkUrl="$(_SourceLinkUrlToUpdate)" Condition="'$(_SourceLinkUrlToUpdate)' != 'N/A'"/>
+    </ItemGroup>
+  </Target>
+
+</Project>
