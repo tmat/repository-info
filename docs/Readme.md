@@ -99,6 +99,11 @@ When true and a source control package is present the Source Revision id is incl
 True by default, set to false to suppress publishing Source Revision id to the attribute.
 
 ### SourceRevisionId
+- _Identity_: full path to the source root directory ending with a directory separator
+- _SourceControl_: the name of source control system, if the directory is a source source control root
+- _RevisionId_: the revision id (e.g. commit hash), if the directory is a source source control root
+
+
 
 Set by target ```SetSourceRevisionId``` and consumed by NuGet ```Pack``` target and ```GenerateAssemblyInfo``` target. 
 May be used by custom targets that need this information.
@@ -110,4 +115,20 @@ Including a SourceLink package thus enables Source Link generation unless disabl
 
 ### SourceRoot
 
-TODO
+Item group that lists all source roots that the project source files reside under and their mapping to source control server URLs. This includes both source files under source control as well as source files in source packages.
+
+Source root metadata:
+
+- _Identity_: full path to the source root directory ending with a directory separator
+
+Source control roots have the following metadata:
+- _SourceControl_: the name of source control system, if the directory is a source source control root
+- _RevisionId_: the revision id (e.g. commit hash), if the directory is a source source control root
+- _RepositoryUrl_: repository URL (e.g. _http://github.com/dotnet/corefx_)
+
+Nested source control roots have the following metadata (e.g. submodules):
+- _NestedRoot_: URL to the source root relative to the containing source root (e.g. _src/submodules/mysubmodule_)
+- _ContainingRoot_: the identity if the containing source root
+
+Source roots not under source control:
+- _SourceLinkUrl_: URL to use in source link mapping, including ```*``` wildcard (e.g. _https://raw.githubusercontent.com/dotnet/roslyn/42abf2e6642db97d2314c017eb179075d5042028/src/Dependencies/CodeAnalysis.Debugging/*_)
