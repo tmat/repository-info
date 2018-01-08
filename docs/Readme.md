@@ -124,11 +124,11 @@ Source root metadata:
 Source control roots have the following metadata:
 - _SourceControl_: the name of source control system, if the directory is a source source control root
 - _RevisionId_: the revision id (e.g. commit hash), if the directory is a source source control root
-- _RepositoryUrl_: repository URL (e.g. _http://github.com/dotnet/corefx_)
+- _RepositoryUrl_: repository URL (e.g. ```http://github.com/dotnet/corefx```)
 
 Nested source control roots have the following metadata (e.g. submodules):
-- _NestedRoot_: URL to the source root relative to the containing source root (e.g. _src/submodules/mysubmodule_)
+- _NestedRoot_: URL to the source root relative to the containing source root (e.g. ```src/submodules/mysubmodule```)
 - _ContainingRoot_: the identity if the containing source root
 
 Source roots not under source control:
-- _SourceLinkUrl_: URL to use in source link mapping, including ```*``` wildcard (e.g. _https://raw.githubusercontent.com/dotnet/roslyn/42abf2e6642db97d2314c017eb179075d5042028/src/Dependencies/CodeAnalysis.Debugging/*_)
+- _SourceLinkUrl_: URL to use in source link mapping, including ```*``` wildcard (e.g. ```https://raw.githubusercontent.com/dotnet/roslyn/42abf2e6642db97d2314c017eb179075d5042028/src/Dependencies/CodeAnalysis.Debugging/*```)
