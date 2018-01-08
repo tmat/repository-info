@@ -121,12 +121,25 @@ Source root metadata:
 
 - _Identity_: full path to the source root directory ending with a directory separator
 
-Source control roots have the following metadata:
-- _SourceControl_: the name of source control system, if the directory is a source source control root
-- _RevisionId_: the revision id (e.g. commit hash), if the directory is a source source control root
-- _RepositoryUrl_: repository URL (e.g. ```http://github.com/dotnet/corefx```)
+All source control roots have the following metadata:
+
+- _SourceControl_: the name of source control system, if the directory is a source source control root (e.g. ```Git```, ```TFVC```, etc.)
+- _RevisionId_: revision id (e.g. git commit hash)
+
+Additional soruce-control specific metadata may be defined (depends on the source control system). 
+
+For example, for Git:
+
+- _RepositoryUrl_: e.g. ```http://github.com/dotnet/corefx```
+
+For TFVC:
+
+- _CollectionUrl_
+- _ProjectId_
+- _ServerPath_
 
 Nested source control roots have the following metadata (e.g. submodules):
+
 - _NestedRoot_: URL to the source root relative to the containing source root (e.g. ```src/submodules/mysubmodule```)
 - _ContainingRoot_: the identity if the containing source root
 
