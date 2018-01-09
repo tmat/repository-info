@@ -99,11 +99,6 @@ When true and a source control package is present the Source Revision id is incl
 True by default, set to false to suppress publishing Source Revision id to the attribute.
 
 ### SourceRevisionId
-- _Identity_: full path to the source root directory ending with a directory separator
-- _SourceControl_: the name of source control system, if the directory is a source source control root
-- _RevisionId_: the revision id (e.g. commit hash), if the directory is a source source control root
-
-
 
 Set by target ```SetSourceRevisionId``` and consumed by NuGet ```Pack``` target and ```GenerateAssemblyInfo``` target. 
 May be used by custom targets that need this information.
