@@ -82,11 +82,10 @@ The following project settings result in a fully deterministic build output when
  <PropertyGroup>
     <TargetFramework>netcoreapp1.0</TargetFramework>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <Deterministic>true</Deterministic>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SourceLink.GitHub" Version="3.0.0" />
+    <PackageReference Include="SourceLink.GitHub" Version="3.0.0" PrivateAssets="All"/>
   </ItemGroup>
 </Project>
 ```
