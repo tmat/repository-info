@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SourceLink>$(IntermediateOutputPath)$(MSBuildProjectName).sourcelink.json</SourceLink>
+    <SourceLink Condition="'$(DebugType)' != 'none'">$(IntermediateOutputPath)$(MSBuildProjectName).sourcelink.json</SourceLink>
   </PropertyGroup>
 
   <!-- 
@@ -21,7 +21,8 @@
   <Target Name="_GenerateSourceLinkFile"
           DependsOnTargets="InitializeSourceLinkUrl"
           BeforeTargets="CoreCompile"
-          Outputs="$(SourceLink)">
+          Outputs="$(SourceLink)"
+          Condition="'$(SourceLink)' != ''">
 
     <GenerateSourceLinkFile SourceRoots="@(SourceRoot)" OutputFile="$(SourceLink)" />
 
