@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- TODO: move to NuGet.Build.Tasks.Pack.targets -->
+  <!-- TODO: Update Pack task to include SourceRevisionId in generated nuspec. -->
+  <PropertyGroup>
+    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);SetSourceRevisionId;_InitializeRepositoryUrl</GenerateNuspecDependsOn>
+  </PropertyGroup>
+  
+  <Target Name="_InitializeRepositoryUrl"
+          DependsOnTargets="InitializePrivateRepositoryUrl"
+          Condition="'$(PublishRepositoryUrl)' == 'true'">
+
+    <PropertyGroup>
+      <RepositoryUrl Condition="'$(RepositoryUrl)' == ''">$(PrivateRepositoryUrl)</RepositoryUrl>
+    </PropertyGroup>
+  </Target>
+</Project>

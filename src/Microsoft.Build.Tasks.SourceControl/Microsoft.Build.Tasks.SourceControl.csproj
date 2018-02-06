@@ -16,6 +16,6 @@
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="$(MicrosoftBuildTasksCore)" />
   </ItemGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="Microsoft.Build.Tasks.RepositoryInfo.UnitTests" />
+    <InternalsVisibleTo Include="Microsoft.Build.Tasks.SourceControl.UnitTests" />
   </ItemGroup>
 </Project>

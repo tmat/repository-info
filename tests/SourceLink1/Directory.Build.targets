@@ -1,5 +1,6 @@
 <!-- Copyright (c)  Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information. -->
 <Project>
+  <Import Project="..\..\artifacts\Debug\packages\Microsoft.Build.Tasks.SourceControl.1.0.0-dev\build\Microsoft.Build.Tasks.SourceControl.targets" />
   <Import Project="..\..\artifacts\Debug\packages\SourceLink.GitHub.1.0.0-dev\build\SourceLink.GitHub.targets" />
   <Import Project="..\..\artifacts\Debug\packages\SourceLink.VSO.Git.1.0.0-dev\build\SourceLink.VSO.Git.targets" />
 </Project>

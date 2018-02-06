@@ -3,6 +3,6 @@
     <TargetFrameworks>net46;netcoreapp2.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Build.Tasks.RepositoryInfo\Microsoft.Build.Tasks.RepositoryInfo.csproj" />
+    <ProjectReference Include="..\Microsoft.Build.Tasks.SourceControl\Microsoft.Build.Tasks.SourceControl.csproj" />
   </ItemGroup>
 </Project>

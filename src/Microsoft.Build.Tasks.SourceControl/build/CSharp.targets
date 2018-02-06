@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- 
+    =======
+    PathMap
+    =======
+    
+    If DeterministicSourcePaths is true adds mapping for all source roots to PathMap.
+    
+    This target requires SourceRoot to be initialized in order to calculate the PathMap.
+    If SourceRoot is empty an error is reported if DeterministicSourcePaths has been explicitly set to true by the project.
+    If DeterministicSourcePaths has been set to true in Common.props the target is skipped, to avoid breaking existing projects.
+  -->
+  <Target Name="_SetPathMapFromSourceRoots"
+          DependsOnTargets="InitializeSourceRoot"
+          BeforeTargets="CoreCompile"
+          Condition="'$(DeterministicSourcePaths)' == 'true'">
+   
+    <ItemGroup>
+      <_TopLevelSourceRoot Include="@(SourceRoot)" Condition="'%(SourceRoot.NestedRoot)' == ''"/>
+    </ItemGroup>
+    
+    <PropertyGroup Condition="'@(_TopLevelSourceRoot)' != ''">
+      <!-- TODO: Report error/warning if /pathmap doesn't cover all emitted source paths: https://github.com/dotnet/roslyn/issues/23969 -->
+      
+      <!-- TODO: PathMap should accept and ignore empty mapping: https://github.com/dotnet/roslyn/issues/23523-->
+      <PathMap Condition="'$(PathMap)' != ''">$(PathMap),</PathMap>
+      
+      <!--
+        TODO: quote the paths to avoid misinterpreting ',' and '=' in them as separators, 
+        but quoting doesn't currently work (see https://github.com/dotnet/roslyn/issues/22835).
+      -->
+      <PathMap>$(PathMap)@(_TopLevelSourceRoot->'%(Identity)=%(MappedPath)', ',')</PathMap>
+    </PropertyGroup>
+  </Target>
+</Project>

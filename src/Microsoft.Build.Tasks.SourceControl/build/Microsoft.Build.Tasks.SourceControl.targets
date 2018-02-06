@@ -4,6 +4,14 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <_SourceControlAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net46\Microsoft.Build.Tasks.SourceControl.dll</_SourceControlAssemblyFile>
+    <_SourceControlAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp1.0\Microsoft.Build.Tasks.SourceControl.dll</_SourceControlAssemblyFile>
+  </PropertyGroup>
+  
+  <UsingTask TaskName="Microsoft.Build.Tasks.GetExternalFiles" AssemblyFile="$(_SourceControlAssemblyFile)"/>
+  <UsingTask TaskName="Microsoft.Build.Tasks.GenerateSourceLinkFile" AssemblyFile="$(_SourceControlAssemblyFile)"/>
+
   <!-- A single SourceControlBuildTasks is expected to be found, error is reported otherwise. -->
   <UsingTask TaskName="@(SourceControlBuildTasks->'%(Namespace)').LocateRepository" AssemblyFile="@(SourceControlBuildTasks->'%(AssemblyFile)')"/>
   <UsingTask TaskName="@(SourceControlBuildTasks->'%(Namespace)').GetSourceRoots" AssemblyFile="@(SourceControlBuildTasks->'%(AssemblyFile)')"/>
@@ -70,16 +78,55 @@
   </Target>
 
   <!--
-    Embed files to the PDB that belong to the repository, but are explicitly ignored (excluded) from source control.
+    Embed files to the PDB that either do not belong to any of the SourceRoot directories
+    or belong to the source repository, but are explicitly ignored (excluded) from source control.
   -->
   <Target Name="_SetEmbeddedFilesFromUntrackedFiles"
           DependsOnTargets="_InitializeSourceControlProperties"
           BeforeTargets="CoreCompile"
-          Condition="'$(EmbedUntrackedSources)' == 'true' and '$(DebugType)' != 'none'">
+          Condition="'$(EmbedUntrackedSources)' == 'true' and '$(EmbedAllSources)' != 'true' and '$(DebugType)' != 'none'">
     
     <GetUntrackedFiles LocalRepositoryId="$(RepositoryLocalSourceControlId)" Files="@(Compile)">
       <Output TaskParameter="UntrackedFiles" ItemName="EmbeddedFiles" />
     </GetUntrackedFiles>
+    
+    <!-- Add files that do not belong to the repository or any source root. -->
+    <GetExternalFiles Directories="@(SourceRoot)" Files="@(Compile)">
+      <Output TaskParameter="ExternalFiles" ItemName="EmbeddedFiles" />
+    </GetExternalFiles>
+  </Target>
+
+  <!--
+    ===========
+    Source Link
+    ===========
+  -->
+  
+  <PropertyGroup>
+    <SourceLink Condition="'$(DebugType)' != 'none'">$(IntermediateOutputPath)$(MSBuildProjectName).sourcelink.json</SourceLink>
+  </PropertyGroup>
+
+  <!-- 
+    Fills in SourceLinkUrl metadata on SourceRoot items that don't have it yet.
+  -->
+  <Target Name="InitializeSourceLinkUrl"
+          DependsOnTargets="InitializeSourceRoot;$(InitializeSourceLinkUrlDependsOn)">
+  </Target>
+
+  <!--
+    Generates source link file.
+  -->
+  <Target Name="_GenerateSourceLinkFile"
+          DependsOnTargets="InitializeSourceLinkUrl"
+          BeforeTargets="CoreCompile"
+          Outputs="$(SourceLink)"
+          Condition="'$(SourceLink)' != ''">
+
+    <GenerateSourceLinkFile SourceRoots="@(SourceRoot)" OutputFile="$(SourceLink)" />
+
+    <ItemGroup>
+      <FileWrites Include="$(SourceLink)" />
+    </ItemGroup>
   </Target>
   
 </Project>

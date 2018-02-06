@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceLink.VSO.TFVC", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceLink.VSO.Git", "src\SourceLink.VSO.Git\SourceLink.VSO.Git.csproj", "{8B24544C-766E-4641-BBFF-F1B543E0C45F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Build.Tasks.RepositoryInfo", "src\Microsoft.Build.Tasks.RepositoryInfo\Microsoft.Build.Tasks.RepositoryInfo.csproj", "{6A7DFA13-4464-44AF-83FB-0EED4F9CD7F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Build.Tasks.SourceControl", "src\Microsoft.Build.Tasks.SourceControl\Microsoft.Build.Tasks.SourceControl.csproj", "{1FAB9031-3148-476B-B9BB-AB89B8CD2C17}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Build.Tasks.RepositoryInfo.UnitTests", "src\Microsoft.Build.Tasks.RepositoryInfo.UnitTests\Microsoft.Build.Tasks.RepositoryInfo.UnitTests.csproj", "{BF858674-198D-48DE-B1EE-F3B88B3AD6A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Build.Tasks.SourceControl.UnitTests", "src\Microsoft.Build.Tasks.SourceControl.UnitTests\Microsoft.Build.Tasks.SourceControl.UnitTests.csproj", "{9C090D12-1C88-4CB0-849E-3B1668CE0159}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +43,14 @@ Global
 		{8B24544C-766E-4641-BBFF-F1B543E0C45F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B24544C-766E-4641-BBFF-F1B543E0C45F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B24544C-766E-4641-BBFF-F1B543E0C45F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A7DFA13-4464-44AF-83FB-0EED4F9CD7F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A7DFA13-4464-44AF-83FB-0EED4F9CD7F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A7DFA13-4464-44AF-83FB-0EED4F9CD7F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A7DFA13-4464-44AF-83FB-0EED4F9CD7F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF858674-198D-48DE-B1EE-F3B88B3AD6A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF858674-198D-48DE-B1EE-F3B88B3AD6A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF858674-198D-48DE-B1EE-F3B88B3AD6A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF858674-198D-48DE-B1EE-F3B88B3AD6A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FAB9031-3148-476B-B9BB-AB89B8CD2C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FAB9031-3148-476B-B9BB-AB89B8CD2C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FAB9031-3148-476B-B9BB-AB89B8CD2C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FAB9031-3148-476B-B9BB-AB89B8CD2C17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C090D12-1C88-4CB0-849E-3B1668CE0159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C090D12-1C88-4CB0-849E-3B1668CE0159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C090D12-1C88-4CB0-849E-3B1668CE0159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C090D12-1C88-4CB0-849E-3B1668CE0159}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

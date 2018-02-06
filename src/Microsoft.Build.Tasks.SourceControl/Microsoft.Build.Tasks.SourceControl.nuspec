@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <id>Microsoft.Build.Tasks.RepositoryInfo</id>
+    <id>Microsoft.Build.Tasks.SourceControl</id>
     <summary>MSBuild tasks providing git repository information.</summary>
     <description>MSBuild tasks providing git repository information.</description>
     <version>1.0.0-beta</version>
@@ -19,7 +19,7 @@
   </metadata>
   <files>
     <file src="netcoreapp1.0\*.*" target="tools\netcoreapp1.0" />    
-    <file src="net46\Microsoft.Build.Tasks.RepositoryInfo.*" target="tools\net46" />
+    <file src="net46\Microsoft.Build.Tasks.SourceControl.*" target="tools\net46" />
     <file src="$projectDir$\build\*.*" target="build" />
   </files>
 </package>
