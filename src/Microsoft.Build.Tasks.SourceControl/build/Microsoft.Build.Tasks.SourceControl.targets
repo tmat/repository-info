@@ -18,13 +18,11 @@
   <UsingTask TaskName="@(SourceControlBuildTasks->'%(Namespace)').GetRepositoryUrl" AssemblyFile="@(SourceControlBuildTasks->'%(AssemblyFile)')"/>
   <UsingTask TaskName="@(SourceControlBuildTasks->'%(Namespace)').GetSourceRevisionId" AssemblyFile="@(SourceControlBuildTasks->'%(AssemblyFile)')" />
   <UsingTask TaskName="@(SourceControlBuildTasks->'%(Namespace)').GetUntrackedFiles" AssemblyFile="@(SourceControlBuildTasks->'%(AssemblyFile)')"/>
-
-  <!-- Overrides -->
-  <Target Name="SetSourceRevisionId" DependsOnTargets="_InitializeSourceControlProperties" />
   
   <PropertyGroup>
     <InitializeSourceRootDependsOn>$(InitializeSourceRootDependsOn);_InitializeSourceRootFromSourceControl</InitializeSourceRootDependsOn>
     <InitializePrivateRepositoryUrlDependsOn>$(InitializePrivateRepositoryUrlDependsOn);_InitializeSourceControlProperties</InitializePrivateRepositoryUrlDependsOn>
+    <InitializeSourceRevisionIdDependsOn>$(InitializeSourceRevisionIdDependsOn);_InitializeSourceControlProperties</InitializeSourceRevisionIdDependsOn>
   </PropertyGroup>
   
   <Target Name="_InitializeSourceControlProperties">
@@ -62,9 +60,9 @@
     </GetRepositoryUrl>
 
     <!-- 
-      Override any previously set value of SourceRevisionId since the value provided by the SCM is authoritative. 
+      Only initialize the URL if it hasn't been set yet. On CI we get the value from STANDARD_CI_SOURC_-REVISION_ID.
     -->
-    <GetSourceRevisionId LocalRepositoryId="$(RepositoryLocalSourceControlId)">
+    <GetSourceRevisionId LocalRepositoryId="$(RepositoryLocalSourceControlId)" Condition="'$(SourceRevisionId)' == ''">
       <Output TaskParameter="RevisionId" PropertyName="SourceRevisionId" />
     </GetSourceRevisionId>
   </Target>

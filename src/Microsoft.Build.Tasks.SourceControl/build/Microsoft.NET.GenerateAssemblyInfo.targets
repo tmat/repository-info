@@ -11,7 +11,7 @@
 
   <Target Name="_IncludeSourceRevisionInInformationalVersion"
           BeforeTargets="GetAssemblyAttributes"
-          DependsOnTargets="SetSourceRevisionId"
+          DependsOnTargets="InitializeSourceRevisionId"
           Condition="'$(IncludeSourceRevisionInInformationalVersion)' == 'true'">
 
     <PropertyGroup Condition="'$(SourceRevisionId)' != ''">
