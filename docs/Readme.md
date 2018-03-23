@@ -38,7 +38,7 @@ This is necessary when the project sources are stored in mutliple submodules hos
 
 ### ContinuousIntegrationBuild
 
-Indicates that the build executes on a build/CI server. 
+Boolean that indicates that the build executes on a build/CI server. 
 
 By default, the property is set to true on build servers that comply with
 [Standard CI](https://github.com/dotnet/designs/blob/86f4ed0e39fc1b1ab5c4128990b17c4aead4420f/proposed/standard-ci-env-variables.md)
