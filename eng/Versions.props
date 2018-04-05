@@ -4,17 +4,13 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
 
     <!-- This repo version -->
-    <VersionBase>1.0.0</VersionBase>
+    <VersionPrefix>1.0.0</VersionPrefix>
     <PreReleaseVersionLabel>beta</PreReleaseVersionLabel>
-
-    <!-- Toolset -->
-    <RoslynToolsRepoToolsetVersion>1.0.0-beta-62412-04</RoslynToolsRepoToolsetVersion>
-    <DotNetCliVersion>2.0.2</DotNetCliVersion>
     
     <!-- Libs -->
     <LibGit2SharpPortableVersion>0.24.10</LibGit2SharpPortableVersion>
-    <MicrosoftBuildVersion>14.3.0</MicrosoftBuildVersion> 
-    <MicrosoftBuildTasksCore>14.3.0</MicrosoftBuildTasksCore>
+    <MicrosoftBuildVersion>15.6.82</MicrosoftBuildVersion> 
+    <MicrosoftBuildTasksCore>15.6.82</MicrosoftBuildTasksCore>
     <MicrosoftTeamFoundationServerExtendedClientVersion>15.112.1</MicrosoftTeamFoundationServerExtendedClientVersion>
   </PropertyGroup>
 </Project>

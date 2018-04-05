@@ -8,7 +8,7 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.Build.Tasks
 {
-    // TODO: move to Microsoft.Build.Tasks
+    // TODO: move to compiler targets
     public sealed class MapSourceRoots : Task
     {
         [Required]

@@ -29,6 +29,10 @@
     <Error Text="A single source control package required, found multiple: @(SourceControlBuildTasks, ', ')" 
            Condition="@(SourceControlBuildTasks->Count()) != 1"/>
 
+    <PropertyGroup>
+      <RepositoryType Condition="'$(RepositoryType)' == ''">@(SourceControlBuildTasks)</RepositoryType>
+    </PropertyGroup>
+    
     <!-- 
       Determines RepositoryLocalSourceControlId and RepositoryRoot of the repository the project belongs to.
       
@@ -60,7 +64,7 @@
     </GetRepositoryUrl>
 
     <!-- 
-      Only initialize the URL if it hasn't been set yet. On CI we get the value from STANDARD_CI_SOURC_-REVISION_ID.
+      Only initialize the URL if it hasn't been set yet. On CI we get the value from STANDARD_CI_SOURCE_REVISION_ID.
     -->
     <GetSourceRevisionId LocalRepositoryId="$(RepositoryLocalSourceControlId)" Condition="'$(SourceRevisionId)' == ''">
       <Output TaskParameter="RevisionId" PropertyName="SourceRevisionId" />
