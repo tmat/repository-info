@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Build.Tasks.Sourc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Build.Tasks.SourceControl.UnitTests", "src\Microsoft.Build.Tasks.SourceControl.UnitTests\Microsoft.Build.Tasks.SourceControl.UnitTests.csproj", "{9C090D12-1C88-4CB0-849E-3B1668CE0159}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Build.StandardCI", "src\Microsoft.Build.StandardCI\Microsoft.Build.StandardCI.csproj", "{F537399A-8B15-4AA0-B5E5-A32E0FAF750B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{9C090D12-1C88-4CB0-849E-3B1668CE0159}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C090D12-1C88-4CB0-849E-3B1668CE0159}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C090D12-1C88-4CB0-849E-3B1668CE0159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F537399A-8B15-4AA0-B5E5-A32E0FAF750B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F537399A-8B15-4AA0-B5E5-A32E0FAF750B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F537399A-8B15-4AA0-B5E5-A32E0FAF750B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F537399A-8B15-4AA0-B5E5-A32E0FAF750B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

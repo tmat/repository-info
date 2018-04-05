@@ -11,16 +11,21 @@
     
   <UsingTask TaskName="SourceLink.VSO.TFVC.GetVsoTfvcSourceLinkUrl" AssemblyFile="$(_SourceLinkVsoTfvcAssemblyFile)"/>
 
-  <PropertyGroup>
-    <InitializeSourceLinkUrlDependsOn>$(InitializeSourceLinkUrlDependsOn);_InitializeVsoTfvcSourceLinkUrl</InitializeSourceLinkUrlDependsOn>
-  </PropertyGroup>
+  <!-- 
+    This target uses the source control information attached to each SourceRoot item to calculate and set SourceLinkUrl metadata.
+  -->
+  <Target Name="_InitializeVsoTfvcSourceLinkUrl"
+          BeforeTargets="InitializeSourceRootSourceLinkUrl"
+          DependsOnTargets="InitializeSourceRootMappedPaths"
+          Inputs="@(SourceRoot)"
+          Outputs="|%(Identity)|">
 
-  <Target Name="_InitializeVsoTfvcSourceLinkUrl" Inputs="@(SourceRoot)" Outputs="|%(Identity)|">
-    <GetVsoTfvcSourceLinkUrl SourceRoot="@(SourceRoot)">
+    <SourceLink.VSO.TFVC.GetVsoTfvcSourceLinkUrl SourceRoot="@(SourceRoot)">
       <Output TaskParameter="SourceLinkUrl" PropertyName="_SourceLinkUrlToUpdate"/>
-    </GetVsoTfvcSourceLinkUrl>
+    </SourceLink.VSO.TFVC.GetVsoTfvcSourceLinkUrl>
     
     <ItemGroup>
+      <!-- Only update the SourceLinkUrl metadata if the SourceRoot belongs to this source control -->
       <SourceRoot Update="%(Identity)" SourceLinkUrl="$(_SourceLinkUrlToUpdate)" Condition="'$(_SourceLinkUrlToUpdate)' != 'N/A'"/>
     </ItemGroup>
   </Target>

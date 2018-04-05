@@ -12,7 +12,7 @@ namespace Microsoft.Build.Tasks.Git
 {
     internal static class Implementation
     {
-        public static string LocateRepository(string directory, bool outermost)
+        public static string LocateRepository(string directory)
         {
             string DiscoverRoot(string dir)
             {
@@ -31,20 +31,6 @@ namespace Microsoft.Build.Tasks.Git
             if (root == null)
             {
                 return null;
-            }
-
-            if (outermost)
-            {
-                while (true)
-                {
-                    var outerRoot = DiscoverRoot(Path.Combine(root, ".."));
-                    if (outerRoot == null)
-                    {
-                        break;
-                    }
-
-                    root = outerRoot;
-                }
             }
 
             return Path.GetFullPath(root).EndWithSeparator();

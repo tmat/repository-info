@@ -1,17 +1,20 @@
 ﻿<Project Sdk="RoslynTools.RepoToolset">
   <PropertyGroup>
-    <TargetFrameworks>net46;netcoreapp1.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0</TargetFrameworks>
     
     <!-- Using an explicit nuspec file since NuGet Pack target currently doesn't support including dependencies in tools packages -->
     <IsPackable>true</IsPackable>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <NuspecBasePath>$(OutputPath)</NuspecBasePath>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Build" Version="$(MicrosoftBuildVersion)" />
-    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="$(MicrosoftBuildTasksCore)" />
-  </ItemGroup>
-
+  
+  <!-- Nothing to build, just create packages -->
+  <Target Name="Build">
+    <MakeDir Directories="$(IntermediateOutputPath)" ContinueOnError="True" />
+  </Target>
+  
+  <Target Name="Test" />
+    
   <Target Name="_InitializeNuspecProperties" BeforeTargets="GenerateNuspec">
     <PropertyGroup>
       <NuspecProperties>version=$(Version);licenseUrl=$(PackageLicenseUrl);repoUrl=$(RepositoryUrl);copyright=$(Copyright);projectDir=$(MSBuildProjectDirectory)</NuspecProperties>

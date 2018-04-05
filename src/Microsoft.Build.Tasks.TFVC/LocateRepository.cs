@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
-using System;
-using System.IO;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Microsoft.TeamFoundation.VersionControl.Client;
@@ -13,13 +11,12 @@ namespace Microsoft.Build.Tasks.Git
         [Required]
         public string Directory { get; set; }
 
-        public string OutermostRepositoryRoot { get; set; }
-
-        [Output]
-        public string Root { get; set; }
-
         [Output]
         public string Id { get; set; }
+
+#if UNUSED
+        [Output]
+        public string Root { get; set; }
 
         private static int GetLongestCommonPrefix(string[] path1, int length1, string[] path2)
         {
@@ -34,12 +31,9 @@ namespace Microsoft.Build.Tasks.Git
 
             return length;
         }
-
+#endif
         public override bool Execute()
         {            
-            string NormalizeResult(string path)
-                => Path.GetFullPath(path).EndWithSeparator();
-
             var workspaceInfo = Workstation.Current.GetLocalWorkspaceInfo(Directory);
             if (workspaceInfo == null || workspaceInfo.MappedPaths.Length == 0)
             {
@@ -51,6 +45,10 @@ namespace Microsoft.Build.Tasks.Git
            
             // any mapping works as an id:
             Id = paths[0];
+
+#if UNUSED
+            string NormalizeResult(string path)
+                => Path.GetFullPath(path).EndWithSeparator();
 
             if (paths.Length == 1)
             {
@@ -73,7 +71,7 @@ namespace Microsoft.Build.Tasks.Git
             {
                 Root = NormalizeResult(string.Join(Path.DirectorySeparatorChar.ToString(), parts, 0, prefixLength));
             }
-
+#endif
             return true;
         }
     }

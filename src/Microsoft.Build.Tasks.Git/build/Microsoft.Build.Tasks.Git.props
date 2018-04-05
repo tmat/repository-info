@@ -4,12 +4,8 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <EnableSourceControlBuildTasks>true</EnableSourceControlBuildTasks>
-  </PropertyGroup>
-
   <ItemGroup>
-    <SourceControlBuildTasks Include="Git">
+    <SourceControlBuildTasks Include="git">
       <Namespace>Microsoft.Build.Tasks.Git</Namespace>
       <AssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net46\Microsoft.Build.Tasks.Git.dll</AssemblyFile>
       <AssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp1.0\Microsoft.Build.Tasks.Git.dll</AssemblyFile>

@@ -11,25 +11,19 @@ namespace Microsoft.Build.Tasks.Git
         [Required]
         public string Directory { get; set; }
 
-        public bool OutermostRepositoryRoot { get; set; }
-
-        [Output]
-        public string Root { get; set; }
-
         [Output]
         public string Id { get; set; }
 
         public override bool Execute()
         {
-            Root = Implementation.LocateRepository(Directory, OutermostRepositoryRoot);
+            Id = Implementation.LocateRepository(Directory);
 
-            if (Root == null)
+            if (Id == null)
             {
                 Log.LogError($"Unable to locate repository containing directory '{Directory}'.");
                 return false;
             }
 
-            Id = Root;
             return true;
         }
     }

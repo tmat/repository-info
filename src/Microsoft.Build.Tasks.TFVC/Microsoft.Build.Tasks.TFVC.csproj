@@ -1,4 +1,4 @@
-<Project Sdk="RoslynTools.RepoToolset">
+﻿<Project Sdk="RoslynTools.RepoToolset">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
     
@@ -6,7 +6,6 @@
     <IsPackable>true</IsPackable>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <NuspecBasePath>$(OutputPath)</NuspecBasePath>
-    <NuspecProperties>version=$(Version);licenseUrl=$(PackageLicenseUrl);repoUrl=$(RepositoryUrl);copyright=$(Copyright);projectDir=$(MSBuildProjectDirectory)</NuspecProperties>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Common\PathUtilities.cs" Link="Common\PathUtilities.cs" />
@@ -16,4 +15,10 @@
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="$(MicrosoftBuildTasksCore)" />
     <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" Version="$(MicrosoftTeamFoundationServerExtendedClientVersion)" />
   </ItemGroup>
+
+  <Target Name="_InitializeNuspecProperties" BeforeTargets="GenerateNuspec">
+    <PropertyGroup>
+      <NuspecProperties>version=$(Version);licenseUrl=$(PackageLicenseUrl);repoUrl=$(RepositoryUrl);copyright=$(Copyright);projectDir=$(MSBuildProjectDirectory)</NuspecProperties>
+    </PropertyGroup>
+  </Target>
 </Project>

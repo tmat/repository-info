@@ -11,16 +11,21 @@
     
   <UsingTask TaskName="SourceLink.VSO.Git.GetVsoGitSourceLinkUrl" AssemblyFile="$(_SourceLinkVsoGitAssemblyFile)"/>
 
-  <PropertyGroup>
-    <InitializeSourceLinkUrlDependsOn>$(InitializeSourceLinkUrlDependsOn);_InitializeVsoGitSourceLinkUrl</InitializeSourceLinkUrlDependsOn>  
-</PropertyGroup>
-
-  <Target Name="_InitializeVsoGitSourceLinkUrl" Inputs="@(SourceRoot)" Outputs="|%(Identity)|">
-    <GetVsoGitSourceLinkUrl SourceRoot="@(SourceRoot)">
+  <!-- 
+    This target uses the source control information attached to each SourceRoot item to calculate and set SourceLinkUrl metadata.
+  -->
+  <Target Name="_InitializeVsoTfvcSourceLinkUrl"
+          BeforeTargets="InitializeSourceRootSourceLinkUrl"
+          DependsOnTargets="InitializeSourceRootMappedPaths"
+          Inputs="@(SourceRoot)"
+          Outputs="|%(Identity)|">
+    
+    <SourceLink.VSO.Git.GetVsoGitSourceLinkUrl SourceRoot="@(SourceRoot)">
       <Output TaskParameter="SourceLinkUrl" PropertyName="_SourceLinkUrlToUpdate"/>
-    </GetVsoGitSourceLinkUrl>
+    </SourceLink.VSO.Git.GetVsoGitSourceLinkUrl>
     
     <ItemGroup>
+      <!-- Only update the SourceLinkUrl metadata if the SourceRoot belongs to this source control -->
       <SourceRoot Update="%(Identity)" SourceLinkUrl="$(_SourceLinkUrlToUpdate)" Condition="'$(_SourceLinkUrlToUpdate)' != 'N/A'"/>
     </ItemGroup>
   </Target>

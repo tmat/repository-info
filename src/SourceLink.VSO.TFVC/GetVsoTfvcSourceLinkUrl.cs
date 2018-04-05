@@ -19,7 +19,7 @@ namespace SourceLink.VSO.TFVC
         public override bool Execute()
         {
             if (!string.IsNullOrEmpty(SourceRoot.GetMetadata("SourceLinkUrl")) ||
-                SourceRoot.GetMetadata("SourceControl") != "TFVC")
+                !string.Equals(SourceRoot.GetMetadata("SourceControl"), "tfvc", StringComparison.OrdinalIgnoreCase))
             {
                 SourceLinkUrl = "N/A";
                 return true;

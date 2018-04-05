@@ -12,15 +12,16 @@
   <UsingTask TaskName="SourceLink.GitHub.GetGitHubSourceLinkUrl" AssemblyFile="$(_SourceLinkGitHubAssemblyFile)"/>
 
   <PropertyGroup>
-    <InitializeSourceLinkUrlDependsOn>$(InitializeSourceLinkUrlDependsOn);_InitializeGitHubSourceLinkUrl</InitializeSourceLinkUrlDependsOn>
+    <InitializeSourceRootSourceLinkUrlDependsOn>$(InitializeSourceRootSourceLinkUrlDependsOn);_InitializeGitHubSourceLinkUrl</InitializeSourceRootSourceLinkUrlDependsOn>
   </PropertyGroup>
 
   <Target Name="_InitializeGitHubSourceLinkUrl" Inputs="@(SourceRoot)" Outputs="|%(Identity)|">
-    <GetGitHubSourceLinkUrl SourceRoot="@(SourceRoot)">
+    <SourceLink.GitHub.GetGitHubSourceLinkUrl SourceRoot="@(SourceRoot)">
       <Output TaskParameter="SourceLinkUrl" PropertyName="_SourceLinkUrlToUpdate"/>
-    </GetGitHubSourceLinkUrl>
+    </SourceLink.GitHub.GetGitHubSourceLinkUrl>
     
     <ItemGroup>
+      <!-- Only update the SourceLinkUrl metadata if the SourceRoot belongs to this source control -->
       <SourceRoot Update="%(Identity)" SourceLinkUrl="$(_SourceLinkUrlToUpdate)" Condition="'$(_SourceLinkUrlToUpdate)' != 'N/A'"/>
     </ItemGroup>
   </Target>

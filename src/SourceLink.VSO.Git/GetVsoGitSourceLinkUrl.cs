@@ -19,7 +19,7 @@ namespace SourceLink.VSO.Git
         public override bool Execute()
         {
             if (!string.IsNullOrEmpty(SourceRoot.GetMetadata("SourceLinkUrl")) ||
-                SourceRoot.GetMetadata("SourceControl") != "Git")
+                !string.Equals(SourceRoot.GetMetadata("SourceControl"), "git", StringComparison.OrdinalIgnoreCase))
             {
                 SourceLinkUrl = "N/A";
                 return true;
