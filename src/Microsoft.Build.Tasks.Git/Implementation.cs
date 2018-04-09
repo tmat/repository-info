@@ -40,7 +40,8 @@ namespace Microsoft.Build.Tasks.Git
         {
             var remotes = repository.Network.Remotes;
             var remote = string.IsNullOrEmpty(remoteName) ? (remotes["origin"] ?? remotes.FirstOrDefault()) : remotes[remoteName];
-            return remote?.Url;
+            var url = remote?.Url;
+            return url.EndsWith(".git") ? url.Substring(0, url.Length - ".git".Length) : url;
         }
 
         public static string GetRevisionId(this Repository repository)
@@ -65,7 +66,7 @@ namespace Microsoft.Build.Tasks.Git
                 item = new TaskItem(Path.GetFullPath(Path.Combine(repoRoot, submodule.Path)).EndWithSeparator());
                 item.SetMetadata("SourceControl", "Git");
                 item.SetMetadata("RepositoryUrl", submodule.Url);
-                item.SetMetadata("RevisionId", submodule.HeadCommitId.Sha);
+                item.SetMetadata("RevisionId", submodule.HeadCommitId.Sha); // TODO: https://github.com/tmat/repository-info/issues/1: HeadCommitId might be null if the submodule is not commited
                 item.SetMetadata("ContainingRoot", repoRoot);
                 item.SetMetadata("NestedRoot", submodule.Path.EndWithSeparator());
                 result.Add(item);

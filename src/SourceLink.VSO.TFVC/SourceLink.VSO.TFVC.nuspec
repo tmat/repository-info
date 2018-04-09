@@ -4,7 +4,7 @@
     <id>SourceLink.VSO.TFVC</id>
     <summary>Generates source link for VSO TFVC repositories.</summary>
     <description>Generates source link for VSO TFVC repositories.</description>
-    <version>1.0.0-beta</version>
+    <version>$version$</version>
     <authors>Microsoft</authors>
     <owners>Microsoft</owners>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
@@ -17,7 +17,7 @@
     <serviceable>true</serviceable>
     <language>en-US</language>
     <dependencies>
-      <dependency id="Microsoft.Build.Tasks.TFVC" version="1.0.0-*" />
+      <dependency id="Microsoft.Build.Tasks.TFVC" version="$version$" />
     </dependencies>
   </metadata>
   <files>

@@ -4,7 +4,7 @@
     <id>Microsoft.Build.Tasks.TFVC</id>
     <summary>MSBuild tasks providing TFVC repository information.</summary>
     <description>MSBuild tasks providing TFVC repository information.</description>
-    <version>1.0.0-beta</version>
+    <version>$version$</version>
     <authors>Microsoft</authors>
     <owners>Microsoft</owners>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>

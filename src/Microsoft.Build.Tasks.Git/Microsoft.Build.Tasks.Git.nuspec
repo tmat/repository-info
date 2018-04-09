@@ -4,7 +4,7 @@
     <id>Microsoft.Build.Tasks.Git</id>
     <summary>MSBuild tasks providing git repository information.</summary>
     <description>MSBuild tasks providing git repository information.</description>
-    <version>1.0.0-beta</version>
+    <version>$version$</version>
     <authors>Microsoft</authors>
     <owners>Microsoft</owners>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
@@ -18,10 +18,11 @@
     <language>en-US</language>
   </metadata>
   <files>
-    <file src="netcoreapp1.0\*.*" target="tools\netcoreapp1.0" />
-    <file src="netcoreapp1.0\lib\**\*.dll" target="tools\netcoreapp1.0\lib" />
-    <file src="netcoreapp1.0\lib\**\*.so" target="tools\netcoreapp1.0\lib" />
-    <file src="netcoreapp1.0\lib\**\*.dylib" target="tools\netcoreapp1.0\lib" />
+    <file src="netcoreapp1.0\publish\lib\**\*.dll" target="tools\netcoreapp1.0\lib" />
+    <file src="netcoreapp1.0\publish\lib\**\*.so" target="tools\netcoreapp1.0\lib" />
+    <file src="netcoreapp1.0\publish\lib\**\*.dylib" target="tools\netcoreapp1.0\lib" />
+    <file src="netcoreapp1.0\publish\LibGit2Sharp.*" target="tools\netcoreapp1.0" />
+    <file src="netcoreapp1.0\publish\Microsoft.Build.Tasks.Git.*" target="tools\netcoreapp1.0" />
 
     <file src="net46\Microsoft.Build.Tasks.Git.*" target="tools\net46" />
     <file src="net46\LibGit2Sharp.*" target="tools\net46" />

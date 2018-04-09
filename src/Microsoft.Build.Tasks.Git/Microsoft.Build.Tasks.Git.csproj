@@ -21,4 +21,9 @@
       <NuspecProperties>version=$(Version);licenseUrl=$(PackageLicenseUrl);repoUrl=$(RepositoryUrl);copyright=$(Copyright);projectDir=$(MSBuildProjectDirectory)</NuspecProperties>
     </PropertyGroup>
   </Target>
+
+  <Target Name="PublishForPack" AfterTargets="PostBuildEvent" Condition="'$(NoPublishForPack)' != 'true' and '$(IsPackable)' == 'true'">
+    <Message Importance="High" Text="Executing Publish target on $(MSBuildProjectFullPath) for $(TargetFramework)" />
+    <MSBuild Targets="Publish" Projects="$(MSBuildProjectFullPath)" BuildInParallel="false" Properties="NoBuild=true;NoPublishForPack=true" />
+  </Target>
 </Project>

@@ -4,7 +4,7 @@
     <id>Microsoft.Build.Tasks.SourceControl</id>
     <summary>MSBuild tasks providing git repository information.</summary>
     <description>MSBuild tasks providing git repository information.</description>
-    <version>1.0.0-beta</version>
+    <version>$version$</version>
     <authors>Microsoft</authors>
     <owners>Microsoft</owners>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
