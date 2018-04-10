@@ -6,15 +6,13 @@
     <IsPackable>true</IsPackable>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <NuspecBasePath>$(OutputPath)</NuspecBasePath>
+    
+    <Description>Generates source link for VSO TFVC repositories.</Description>
+    <PackageTags>MSBuild Tasks VSO TFVC source link</PackageTags>
+    <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Build" Version="$(MicrosoftBuildVersion)" />
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="$(MicrosoftBuildTasksCore)" />
   </ItemGroup>
-
-  <Target Name="_InitializeNuspecProperties" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <NuspecProperties>version=$(Version);licenseUrl=$(PackageLicenseUrl);repoUrl=$(RepositoryUrl);copyright=$(Copyright);projectDir=$(MSBuildProjectDirectory)</NuspecProperties>
-    </PropertyGroup>
-  </Target>
 </Project>

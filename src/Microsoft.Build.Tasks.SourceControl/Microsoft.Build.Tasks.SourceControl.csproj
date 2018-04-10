@@ -6,6 +6,10 @@
     <IsPackable>true</IsPackable>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <NuspecBasePath>$(OutputPath)</NuspecBasePath>
+
+    <Description>MSBuild tasks providing source control information.</Description>
+    <PackageTags>MSBuild Tasks source control</PackageTags>
+    <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Common\PathUtilities.cs" Link="Common\PathUtilities.cs" />
@@ -17,10 +21,4 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Microsoft.Build.Tasks.SourceControl.UnitTests" />
   </ItemGroup>
-
-  <Target Name="_InitializeNuspecProperties" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <NuspecProperties>version=$(Version);licenseUrl=$(PackageLicenseUrl);repoUrl=$(RepositoryUrl);copyright=$(Copyright);projectDir=$(MSBuildProjectDirectory)</NuspecProperties>
-    </PropertyGroup>
-  </Target>
 </Project>

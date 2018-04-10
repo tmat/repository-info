@@ -1,25 +1,21 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <id>Microsoft.Build.Tasks.SourceControl</id>
-    <summary>MSBuild tasks providing git repository information.</summary>
-    <description>MSBuild tasks providing git repository information.</description>
-    <version>$version$</version>
-    <authors>Microsoft</authors>
-    <owners>Microsoft</owners>
-    <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <licenseUrl>$licenseUrl$</licenseUrl>
-    <projectUrl>$repoUrl$</projectUrl>
-    <copyright>$copyright$</copyright>
-    <repository url="$repoUrl$" />
-    <developmentDependency>true</developmentDependency>
-    <tags>MSBuild Tasks git source control</tags>
-    <serviceable>true</serviceable>
-    <language>en-US</language>
+    <id>$PackageId$</id>
+    <description>$Description$</description>
+    <version>$Version$</version>
+    <authors>$Authors$</authors>
+    <requireLicenseAcceptance>$RequireLicenseAcceptance$</requireLicenseAcceptance>
+    <licenseUrl>$PackageLicenseUrl$</licenseUrl>
+    <projectUrl>$PackageProjectUrl$</projectUrl>
+    <copyright>$Copyright$</copyright>
+    <developmentDependency>$DevelopmentDependency$</developmentDependency>
+    <tags>$PackageTags$</tags>
+    <serviceable>$Serviceable$</serviceable>
   </metadata>
   <files>
     <file src="netcoreapp1.0\*.*" target="tools\netcoreapp1.0" />    
     <file src="net46\Microsoft.Build.Tasks.SourceControl.*" target="tools\net46" />
-    <file src="$projectDir$\build\*.*" target="build" />
+    <file src="$ProjectDirectory$\build\*.*" target="build" />
   </files>
 </package>

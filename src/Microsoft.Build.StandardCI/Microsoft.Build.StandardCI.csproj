@@ -6,6 +6,10 @@
     <IsPackable>true</IsPackable>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <NuspecBasePath>$(OutputPath)</NuspecBasePath>
+    
+    <Description>Standard CI targets.</Description>
+    <PackageTags>Standard CI msbuild targets</PackageTags>
+    <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
   
   <!-- Nothing to build, just create packages -->
@@ -14,10 +18,4 @@
   </Target>
   
   <Target Name="Test" />
-    
-  <Target Name="_InitializeNuspecProperties" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <NuspecProperties>version=$(Version);licenseUrl=$(PackageLicenseUrl);repoUrl=$(RepositoryUrl);copyright=$(Copyright);projectDir=$(MSBuildProjectDirectory)</NuspecProperties>
-    </PropertyGroup>
-  </Target>
 </Project>

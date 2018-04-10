@@ -6,6 +6,10 @@
     <IsPackable>true</IsPackable>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>
     <NuspecBasePath>$(OutputPath)</NuspecBasePath>
+
+    <Description>MSBuild tasks providing TFVC repository information.</Description>
+    <PackageTags>MSBuild Tasks VSO TFVC source link</PackageTags>
+    <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Common\PathUtilities.cs" Link="Common\PathUtilities.cs" />
@@ -15,10 +19,4 @@
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="$(MicrosoftBuildTasksCore)" />
     <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" Version="$(MicrosoftTeamFoundationServerExtendedClientVersion)" />
   </ItemGroup>
-
-  <Target Name="_InitializeNuspecProperties" BeforeTargets="GenerateNuspec">
-    <PropertyGroup>
-      <NuspecProperties>version=$(Version);licenseUrl=$(PackageLicenseUrl);repoUrl=$(RepositoryUrl);copyright=$(Copyright);projectDir=$(MSBuildProjectDirectory)</NuspecProperties>
-    </PropertyGroup>
-  </Target>
 </Project>
