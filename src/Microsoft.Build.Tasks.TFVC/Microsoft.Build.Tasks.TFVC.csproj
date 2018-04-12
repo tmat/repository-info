@@ -1,7 +1,7 @@
 ﻿<Project Sdk="RoslynTools.RepoToolset">
   <PropertyGroup>
     <TargetFramework>net46</TargetFramework>
-    
+
     <!-- Using an explicit nuspec file since NuGet Pack target currently doesn't support including dependencies in tools packages -->
     <IsPackable>true</IsPackable>
     <NuspecFile>$(MSBuildProjectName).nuspec</NuspecFile>

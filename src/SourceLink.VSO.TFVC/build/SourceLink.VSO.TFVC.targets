@@ -5,8 +5,8 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <_SourceLinkVsoTfvcAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net46\SourceLink.VSO.TFVC.dll</_SourceLinkVsoTfvcAssemblyFile>
-    <_SourceLinkVsoTfvcAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp1.0\SourceLink.VSO.TFVC.dll</_SourceLinkVsoTfvcAssemblyFile>
+    <_SourceLinkVsoTfvcAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net461\SourceLink.VSO.TFVC.dll</_SourceLinkVsoTfvcAssemblyFile>
+    <_SourceLinkVsoTfvcAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp2.0\SourceLink.VSO.TFVC.dll</_SourceLinkVsoTfvcAssemblyFile>
   </PropertyGroup>
     
   <UsingTask TaskName="SourceLink.VSO.TFVC.GetVsoTfvcSourceLinkUrl" AssemblyFile="$(_SourceLinkVsoTfvcAssemblyFile)"/>

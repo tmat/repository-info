@@ -18,8 +18,8 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="netcoreapp1.0\*.*" target="tools\netcoreapp1.0" />
-    <file src="net46\SourceLink.*" target="tools\net46" />
+    <file src="netcoreapp2.0\*.*" target="tools\netcoreapp2.0" />
+    <file src="net461\SourceLink.*" target="tools\net461" />
 
     <file src="$ProjectDirectory$\build\*.*" target="build" />
   </files>

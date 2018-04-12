@@ -7,7 +7,7 @@
   <ItemGroup>
     <SourceControlBuildTasks Include="tfvc">
       <Namespace>Microsoft.Build.Tasks.TFVC</Namespace>
-      <AssemblyFile>$(MSBuildThisFileDirectory)..\tools\net46\Microsoft.Build.Tasks.TFVC.dll</AssemblyFile>
+      <AssemblyFile>$(MSBuildThisFileDirectory)..\tools\net461\Microsoft.Build.Tasks.TFVC.dll</AssemblyFile>
     </SourceControlBuildTasks>
   </ItemGroup>
 </Project>

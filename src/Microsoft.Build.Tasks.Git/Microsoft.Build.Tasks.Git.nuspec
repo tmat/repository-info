@@ -12,19 +12,18 @@
     <developmentDependency>$DevelopmentDependency$</developmentDependency>
     <tags>$PackageTags$</tags>
     <serviceable>$Serviceable$</serviceable>
+    <repository type="$RepositoryType$" url="$RepositoryUrl$" commit="$RepositoryCommit$" />
   </metadata>
   <files>
-    <file src="netcoreapp1.0\publish\lib\**\*.dll" target="tools\netcoreapp1.0\lib" />
-    <file src="netcoreapp1.0\publish\lib\**\*.so" target="tools\netcoreapp1.0\lib" />
-    <file src="netcoreapp1.0\publish\lib\**\*.dylib" target="tools\netcoreapp1.0\lib" />
-    <file src="netcoreapp1.0\publish\LibGit2Sharp.*" target="tools\netcoreapp1.0" />
-    <file src="netcoreapp1.0\publish\Microsoft.Build.Tasks.Git.*" target="tools\netcoreapp1.0" />
+    <file src="netcoreapp2.0\publish\**\*.dll" target="tools\netcoreapp2.0" />
+    <file src="netcoreapp2.0\publish\LibGit2Sharp.dll" target="tools\netcoreapp2.0" />
+    <file src="netcoreapp2.0\publish\Microsoft.Build.Tasks.Git.*" target="tools\netcoreapp2.0" />
 
-    <file src="net46\Microsoft.Build.Tasks.Git.*" target="tools\net46" />
-    <file src="net46\LibGit2Sharp.*" target="tools\net46" />
-    <file src="net46\lib\**\*.dll" target="tools\net46\lib" />
-    <file src="net46\lib\**\*.so" target="tools\net46\lib" />
-    <file src="net46\lib\**\*.dylib" target="tools\net46\lib" />
+    <file src="net461\Microsoft.Build.Tasks.Git.*" target="tools\net461" />
+    <file src="net461\LibGit2Sharp.*" target="tools\net461" />
+    <file src="net461\lib\**\*.dll" target="tools\net461\lib" />
+    <file src="net461\lib\**\*.so" target="tools\net461\lib" />
+    <file src="net461\lib\**\*.dylib" target="tools\net461\lib" />
 
     <file src="$ProjectDirectory$\build\*.*" target="build" />
   </files>

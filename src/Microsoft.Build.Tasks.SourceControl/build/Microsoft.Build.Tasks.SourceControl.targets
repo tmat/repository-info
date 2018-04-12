@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <_SourceControlAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net46\Microsoft.Build.Tasks.SourceControl.dll</_SourceControlAssemblyFile>
-    <_SourceControlAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp1.0\Microsoft.Build.Tasks.SourceControl.dll</_SourceControlAssemblyFile>
+    <_SourceControlAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net461\Microsoft.Build.Tasks.SourceControl.dll</_SourceControlAssemblyFile>
+    <_SourceControlAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp2.0\Microsoft.Build.Tasks.SourceControl.dll</_SourceControlAssemblyFile>
   </PropertyGroup>
   
   <UsingTask TaskName="Microsoft.Build.Tasks.GetExternalFiles" AssemblyFile="$(_SourceControlAssemblyFile)"/>

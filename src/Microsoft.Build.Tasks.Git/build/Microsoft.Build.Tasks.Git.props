@@ -7,8 +7,8 @@
   <ItemGroup>
     <SourceControlBuildTasks Include="git">
       <Namespace>Microsoft.Build.Tasks.Git</Namespace>
-      <AssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net46\Microsoft.Build.Tasks.Git.dll</AssemblyFile>
-      <AssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp1.0\Microsoft.Build.Tasks.Git.dll</AssemblyFile>
+      <AssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net461\Microsoft.Build.Tasks.Git.dll</AssemblyFile>
+      <AssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp2.0\Microsoft.Build.Tasks.Git.dll</AssemblyFile>
     </SourceControlBuildTasks>
   </ItemGroup>
 </Project>
