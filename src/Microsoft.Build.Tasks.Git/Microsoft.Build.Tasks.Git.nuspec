@@ -16,6 +16,8 @@
   </metadata>
   <files>
     <file src="netcoreapp2.0\publish\**\*.dll" target="tools\netcoreapp2.0" />
+    <file src="netcoreapp2.0\publish\**\*.so" target="tools\netcoreapp2.0" />
+    <file src="netcoreapp2.0\publish\**\*.dylib" target="tools\netcoreapp2.0" />
     <file src="netcoreapp2.0\publish\LibGit2Sharp.dll" target="tools\netcoreapp2.0" />
     <file src="netcoreapp2.0\publish\Microsoft.Build.Tasks.Git.*" target="tools\netcoreapp2.0" />
 
