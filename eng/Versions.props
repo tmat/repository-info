@@ -8,8 +8,8 @@
     <PreReleaseVersionLabel>beta</PreReleaseVersionLabel>
     
     <!-- Libs -->
-    <LibGit2SharpVersion>0.25.0</LibGit2SharpVersion>
-    <MicrosoftBuildVersion>15.6.82</MicrosoftBuildVersion> 
+    <LibGit2SharpVersion>0.26.0-preview-0017</LibGit2SharpVersion>
+    <MicrosoftBuildVersion>15.6.82</MicrosoftBuildVersion>
     <MicrosoftBuildTasksCore>15.6.82</MicrosoftBuildTasksCore>
     <MicrosoftTeamFoundationServerExtendedClientVersion>15.112.1</MicrosoftTeamFoundationServerExtendedClientVersion>
   </PropertyGroup>

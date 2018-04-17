@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using LibGit2Sharp;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
@@ -12,6 +13,50 @@ namespace Microsoft.Build.Tasks.Git
 {
     internal static class Implementation
     {
+        static Implementation()
+        {
+            // .NET Core apps that depend on native libraries load them directly from paths specified
+            // in .deps.json file of that app and the native library loader just works.
+            // However, .NET Core currently doesn't support .deps.json for plugins such as msbuild tasks.
+            if (IsRunningOnNetCore())
+            {
+                var dir = Path.GetDirectoryName(typeof(Implementation).Assembly.Location);
+                GlobalSettings.NativeLibraryPath = Path.Combine(dir, "runtimes", GetNativeLibraryRuntimeId(), "native");
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the runtime is .NET Core.
+        /// </summary>
+        private static bool IsRunningOnNetCore()
+            => typeof(object).Assembly.GetName().Name != "mscorlib";
+
+        /// <summary>
+        /// Determines the RID to use when loading libgit2 native library.
+        /// This method only supports RIDs that are currently used by LibGit2Sharp.NativeBinaries.
+        /// </summary>
+        private static string GetNativeLibraryRuntimeId()
+        {
+            var processorArchitecture = IntPtr.Size == 8 ? "x64" : "x86";
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return "win7-" + processorArchitecture;
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return "osx";
+            }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return "linux-" + processorArchitecture;
+            }
+
+            throw new PlatformNotSupportedException();
+        }
+
         public static string LocateRepository(string directory)
         {
             string DiscoverRoot(string dir)

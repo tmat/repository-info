@@ -15,9 +15,14 @@
     <repository type="$RepositoryType$" url="$RepositoryUrl$" commit="$RepositoryCommit$" />
   </metadata>
   <files>
-    <file src="netcoreapp2.0\publish\**\*.dll" target="tools\netcoreapp2.0" />
-    <file src="netcoreapp2.0\publish\**\*.so" target="tools\netcoreapp2.0" />
-    <file src="netcoreapp2.0\publish\**\*.dylib" target="tools\netcoreapp2.0" />
+    <!-- 
+      List platforms explicitly. If a new platform is supported by libgit2 update GetNativeLibraryRuntimeId method to handle it.
+    -->
+    <file src="netcoreapp2.0\publish\runtimes\linux-x64\native\*.so" target="tools\netcoreapp2.0\runtimes\linux-x64\native" />
+    <file src="netcoreapp2.0\publish\runtimes\osx\native\*.dylib" target="tools\netcoreapp2.0\runtimes\osx\native" />
+    <file src="netcoreapp2.0\publish\runtimes\win7-x86\native\*.dll" target="tools\netcoreapp2.0\runtimes\win7-x86\native" />
+    <file src="netcoreapp2.0\publish\runtimes\win7-x64\native\*.dll" target="tools\netcoreapp2.0\runtimes\win7-x64\native" />
+    
     <file src="netcoreapp2.0\publish\LibGit2Sharp.dll" target="tools\netcoreapp2.0" />
     <file src="netcoreapp2.0\publish\Microsoft.Build.Tasks.Git.*" target="tools\netcoreapp2.0" />
 
