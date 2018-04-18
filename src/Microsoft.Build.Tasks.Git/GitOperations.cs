@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -11,16 +12,16 @@ using Microsoft.Build.Utilities;
 
 namespace Microsoft.Build.Tasks.Git
 {
-    internal static class Implementation
+    internal static class GitOperations
     {
-        static Implementation()
+        static GitOperations()
         {
             // .NET Core apps that depend on native libraries load them directly from paths specified
             // in .deps.json file of that app and the native library loader just works.
             // However, .NET Core currently doesn't support .deps.json for plugins such as msbuild tasks.
             if (IsRunningOnNetCore())
             {
-                var dir = Path.GetDirectoryName(typeof(Implementation).Assembly.Location);
+                var dir = Path.GetDirectoryName(typeof(GitOperations).Assembly.Location);
                 GlobalSettings.NativeLibraryPath = Path.Combine(dir, "runtimes", GetNativeLibraryRuntimeId(), "native");
             }
         }
@@ -59,46 +60,34 @@ namespace Microsoft.Build.Tasks.Git
 
         public static string LocateRepository(string directory)
         {
-            string DiscoverRoot(string dir)
-            {
-                // Repository.Discover returns the path to .git directory, repository root is its parent directory.
-                // Returns null if the path is invalid or no repository is found.
-                var gitDir = Repository.Discover(directory);
-                if (gitDir == null)
-                {
-                    return null;
-                }
+            // Repository.Discover returns the path to .git directory for repositories with a working directory.
+            // For bare repositories it returns the repository directory.
+            // Returns null if the path is invalid or no repository is found.
+            return Repository.Discover(directory);
+        }
 
-                return Path.Combine(gitDir, "..");
-            }
-
-            var root = DiscoverRoot(directory);
-            if (root == null)
+        public static string GetRepositoryUrl(this IRepository repository, string remoteName = null)
+        {
+            var remotes = repository.Network.Remotes;
+            var remote = string.IsNullOrEmpty(remoteName) ? (remotes["origin"] ?? remotes.FirstOrDefault()) : remotes[remoteName];
+            if (remote == null)
             {
                 return null;
             }
 
-            return Path.GetFullPath(root).EndWithSeparator();
+            // Note that the value of the URL is whatever the remote was set to (may be invalid).
+            return remote.Url;
         }
 
-        public static string GetRepositoryUrl(this Repository repository, string remoteName = null)
-        {
-            var remotes = repository.Network.Remotes;
-            var remote = string.IsNullOrEmpty(remoteName) ? (remotes["origin"] ?? remotes.FirstOrDefault()) : remotes[remoteName];
-            var url = remote?.Url;
-            return url.EndsWith(".git") ? url.Substring(0, url.Length - ".git".Length) : url;
-        }
-
-        public static string GetRevisionId(this Repository repository)
+        public static string GetRevisionId(this IRepository repository)
         {
             return repository.Head.Tip.Sha;
         }
 
-        public static ITaskItem[] GetSourceRoots(this Repository repository)
+        public static ITaskItem[] GetSourceRoots(this IRepository repository)
         {
             var result = new List<TaskItem>();
-
-            var repoRoot = Path.GetFullPath(repository.Info.WorkingDirectory).EndWithSeparator();
+            var repoRoot = GetRepositoryRoot(repository);
 
             var item = new TaskItem(repoRoot);
             item.SetMetadata("SourceControl", "Git");
@@ -111,7 +100,7 @@ namespace Microsoft.Build.Tasks.Git
                 item = new TaskItem(Path.GetFullPath(Path.Combine(repoRoot, submodule.Path)).EndWithSeparator());
                 item.SetMetadata("SourceControl", "Git");
                 item.SetMetadata("RepositoryUrl", submodule.Url);
-                item.SetMetadata("RevisionId", submodule.HeadCommitId.Sha); // TODO: https://github.com/tmat/repository-info/issues/1: HeadCommitId might be null if the submodule is not commited
+                item.SetMetadata("RevisionId", submodule.WorkDirCommitId.Sha);
                 item.SetMetadata("ContainingRoot", repoRoot);
                 item.SetMetadata("NestedRoot", submodule.Path.EndWithSeparator());
                 result.Add(item);
@@ -120,9 +109,16 @@ namespace Microsoft.Build.Tasks.Git
             return result.ToArray();
         }
 
-        public static ITaskItem[] GetUntrackedFiles(this Repository repository, ITaskItem[] files)
+        private static string GetRepositoryRoot(this IRepository repository)
         {
-            var repoRoot = repository.Info.WorkingDirectory.EndWithSeparator();
+            Debug.Assert(!repository.Info.IsBare);
+            return Path.GetFullPath(repository.Info.WorkingDirectory).EndWithSeparator();
+        }
+
+        public static ITaskItem[] GetUntrackedFiles(this IRepository repository, ITaskItem[] files)
+        {
+            var repoRoot = GetRepositoryRoot(repository);
+
             var pathComparer = Path.DirectorySeparatorChar == '\\' ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
             // TODO: 

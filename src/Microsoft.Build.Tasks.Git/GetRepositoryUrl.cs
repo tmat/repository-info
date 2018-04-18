@@ -2,7 +2,6 @@
 
 using LibGit2Sharp;
 using Microsoft.Build.Framework;
-using Microsoft.Build.Utilities;
 
 namespace Microsoft.Build.Tasks.Git
 {

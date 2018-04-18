@@ -16,7 +16,7 @@ namespace Microsoft.Build.Tasks.Git
 
         public override bool Execute()
         {
-            Id = Implementation.LocateRepository(Directory);
+            Id = GitOperations.LocateRepository(Directory);
 
             if (Id == null)
             {

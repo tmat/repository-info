@@ -26,9 +26,23 @@ namespace Microsoft.Build.Tasks.Git
                 return false;
             }
 
+            if (repo.Info.IsBare)
+            {
+                Log.LogError($"Bare repositories are not supported: '{LocalRepositoryId}'.");
+                return false;
+            }
+
             using (repo)
             {
-                return Execute(repo);
+                try
+                {
+                    return Execute(repo);
+                }
+                catch (LibGit2SharpException e)
+                {
+                    Log.LogError(e.Message);
+                    return false;
+                }
             }
         }
     }

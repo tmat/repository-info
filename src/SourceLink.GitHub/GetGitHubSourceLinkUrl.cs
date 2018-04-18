@@ -27,9 +27,6 @@ namespace SourceLink.GitHub
                 return true;
             }
 
-            bool EndsWith(string path, char c)
-                => path.Length > 0 && path[path.Length - 1] == c;
-
             var repoUrl = SourceRoot.GetMetadata("RepositoryUrl");
             if (!Uri.TryCreate(repoUrl, UriKind.Absolute, out var repoUri))
             {
@@ -53,13 +50,16 @@ namespace SourceLink.GitHub
                 return false;
             }
 
-            var relativeUrl = repoUri.LocalPath;
-            if (!EndsWith(relativeUrl, '/'))
+            var relativeUrl = repoUri.LocalPath.TrimEnd('/');
+
+            // The URL may or may not end with '.git', but raw.githubusercontent.com does not accept '.git' suffix:
+            const string gitUrlSuffix = ".git";
+            if (relativeUrl.EndsWith(gitUrlSuffix))
             {
-                relativeUrl += "/";
+                relativeUrl = relativeUrl.Substring(0, relativeUrl.Length - gitUrlSuffix.Length);
             }
 
-            SourceLinkUrl = new Uri(s_rawGitHub, relativeUrl).ToString() + revisionId + "/*";
+            SourceLinkUrl = new Uri(s_rawGitHub, relativeUrl).ToString() + "/" + revisionId + "/*";
             return true;
         }
     }
