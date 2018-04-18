@@ -3,27 +3,23 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <_SourceLinkVsoTfvcAssemblyFile Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)..\tools\net461\SourceLink.VSO.TFVC.dll</_SourceLinkVsoTfvcAssemblyFile>
     <_SourceLinkVsoTfvcAssemblyFile Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)..\tools\netcoreapp2.0\SourceLink.VSO.TFVC.dll</_SourceLinkVsoTfvcAssemblyFile>
   </PropertyGroup>
-    
+
   <UsingTask TaskName="SourceLink.VSO.TFVC.GetVsoTfvcSourceLinkUrl" AssemblyFile="$(_SourceLinkVsoTfvcAssemblyFile)"/>
 
-  <!-- 
-    This target uses the source control information attached to each SourceRoot item to calculate and set SourceLinkUrl metadata.
-  -->
-  <Target Name="_InitializeVsoTfvcSourceLinkUrl"
-          BeforeTargets="InitializeSourceRootSourceLinkUrl"
-          DependsOnTargets="InitializeSourceRootMappedPaths"
-          Inputs="@(SourceRoot)"
-          Outputs="|%(Identity)|">
+  <PropertyGroup>
+    <InitializeSourceRootSourceLinkUrlDependsOn>$(InitializeSourceRootSourceLinkUrlDependsOn);_InitializeVsoTfvcSourceLinkUrl</InitializeSourceRootSourceLinkUrlDependsOn>
+  </PropertyGroup>
 
+  <Target Name="_InitializeVsoTfvcSourceLinkUrl" Inputs="@(SourceRoot)" Outputs="|%(Identity)|">
     <SourceLink.VSO.TFVC.GetVsoTfvcSourceLinkUrl SourceRoot="@(SourceRoot)">
       <Output TaskParameter="SourceLinkUrl" PropertyName="_SourceLinkUrlToUpdate"/>
     </SourceLink.VSO.TFVC.GetVsoTfvcSourceLinkUrl>
-    
+
     <ItemGroup>
       <!-- Only update the SourceLinkUrl metadata if the SourceRoot belongs to this source control -->
       <SourceRoot Update="%(Identity)" SourceLinkUrl="$(_SourceLinkUrlToUpdate)" Condition="'$(_SourceLinkUrlToUpdate)' != 'N/A'"/>

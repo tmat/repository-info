@@ -25,9 +25,6 @@ namespace SourceLink.VSO.Git
                 return true;
             }
 
-            bool EndsWith(string path, char c)
-                => path.Length > 0 && path[path.Length - 1] == c;
-
             var repoUrl = SourceRoot.GetMetadata("RepositoryUrl");
             if (!Uri.TryCreate(repoUrl, UriKind.Absolute, out var repoUri))
             {
@@ -35,7 +32,7 @@ namespace SourceLink.VSO.Git
                 return false;
             }
 
-            if (!repoUri.Host.EndsWith(".visualstudio.com", StringComparison.OrdinalIgnoreCase))
+            if (!TryParseRepositoryUrl(repoUri, out var projectName, out var repositoryName))
             {
                 SourceLinkUrl = "N/A";
                 return true;
@@ -51,13 +48,41 @@ namespace SourceLink.VSO.Git
                 return false;
             }
 
-            var url = repoUri.ToString();
-            if (!EndsWith(url, '/'))
+            SourceLinkUrl = $"{repoUri.Scheme}://{repoUri.Host}/{projectName}/_apis/git/repositories/{repositoryName}/items?api-version=1.0&versionType=commit&version={revisionId}&path=/*";
+            return true;
+        }
+
+        private static bool TryParseRepositoryUrl(Uri repoUri, out string projectName, out string repositoryName)
+        {
+            // URL format pattern:
+            // https://{account}.visualstudio.com/[DefaultCollection/]?{project}/_git/{repository-name}
+
+            projectName = null;
+            repositoryName = null;
+
+            if (!repoUri.Host.EndsWith(".visualstudio.com", StringComparison.OrdinalIgnoreCase))
             {
-                url += "/";
+                return false;
             }
 
-            SourceLinkUrl = url + "items?api-version=1.0&versionType=commit&version=" + revisionId + "&scopePath=/*";
+            var parts = repoUri.LocalPath.Trim('/').Split('/');
+            if (parts.Length < 3 || parts.Length > 4)
+            {
+                return false;
+            }
+
+            if (parts.Length == 4 && !parts[0].Equals("DefaultCollection", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            if (!parts[parts.Length - 2].Equals("_git", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            repositoryName = parts[parts.Length - 1];
+            projectName = parts[parts.Length - 3];
             return true;
         }
     }
