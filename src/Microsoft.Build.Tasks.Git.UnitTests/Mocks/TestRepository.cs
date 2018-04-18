@@ -146,12 +146,14 @@ namespace Microsoft.Build.Tasks.Git.UnitTests
             string workingDir,
             string headTipCommitSha,
             IReadOnlyList<TestRemote> remotes,
-            IReadOnlyList<Submodule> submodules)
+            IReadOnlyList<Submodule> submodules,
+            IReadOnlyList<string> ignoredPaths)
         {
             _workingDir = workingDir;
             _remotes = remotes;
             _headTipCommitSha = headTipCommitSha;
             _submodules = submodules;
+            _ignoredPaths = ignoredPaths;
         }
 
         public RepositoryInformation Info
