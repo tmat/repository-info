@@ -8,7 +8,7 @@ namespace Microsoft.Build.Tasks.Git.UnitTests
 {
     internal class TestRepository : IRepository
     {
-        private readonly IReadOnlyList<TestRemote> _remotes;
+        private readonly IReadOnlyList<Remote> _remotes;
         private readonly IReadOnlyList<Submodule> _submodules;
         private readonly IReadOnlyList<string> _ignoredPaths;
         private readonly string _headTipCommitSha;
@@ -17,7 +17,7 @@ namespace Microsoft.Build.Tasks.Git.UnitTests
         public TestRepository(
             string workingDir,
             string headTipCommitSha,
-            IReadOnlyList<TestRemote> remotes,
+            IReadOnlyList<Remote> remotes,
             IReadOnlyList<Submodule> submodules,
             IReadOnlyList<string> ignoredPaths)
         {

@@ -6,19 +6,19 @@ namespace Microsoft.Build.Tasks.Git.UnitTests
 {
     internal class TestSubmodule : Submodule
     {
-        private readonly string _url;
         private readonly string _path;
+        private readonly string _url;
         private readonly ObjectId _workDirCommitSha;
 
-        public TestSubmodule(string url, string path, string workDirCommitSha)
+        public TestSubmodule(string path, string url, string workDirCommitSha)
         {
-            _url = url;
             _path = path;
+            _url = url;
             _workDirCommitSha = new ObjectId(workDirCommitSha);
         }
 
-        public override string Url => _url;
         public override string Path => _path;
+        public override string Url => _url;
         public override ObjectId WorkDirCommitId => _workDirCommitSha;
     }
 }
