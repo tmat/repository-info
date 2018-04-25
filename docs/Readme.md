@@ -25,14 +25,14 @@ differ in the way how they expose the content of the hosted repositories. A pack
 The following Source Link packages are currently available:
 
 - SourceLink.GitHub (depends on Microsoft.Build.Tasks.Git package)
-- SourceLink.VSO.Git (depends on Microsoft.Build.Tasks.Git package)
-- SourceLink.VSO.TFVC (depends on Microsoft.Build.Tasks.TFVC package)
+- SourceLink.VSTS.Git (depends on Microsoft.Build.Tasks.Git package)
+- SourceLink.VSTS.TFVC (depends on Microsoft.Build.Tasks.TFVC package)
 
 Each SourceLink package depends on the corresponding source control package. Referencing a SourceLink package makes the dependent source control package also referenced, 
 thus providing the other source control features to the project.
 
 Note that it is possible and supported to reference multiple SourceLink packages in a single project provided they depend on the same source control package.
-This is necessary when the project sources are stored in mutliple submodules hosted by different providers (e.g. VSO repository containing a GitHub submodule).
+This is necessary when the project sources are stored in mutliple submodules hosted by different providers (e.g. VSTS repository containing a GitHub submodule).
 
 ## Basic Settings
 
